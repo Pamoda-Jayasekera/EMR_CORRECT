@@ -70,6 +70,7 @@ namespace EMR
                     command.ExecuteNonQuery();
                 }
 
+
                 // Redirect to FinalPrediction.aspx after successful insertion.
                 Response.Redirect("FinalPrediction.aspx");
             }
