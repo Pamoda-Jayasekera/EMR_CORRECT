@@ -15,7 +15,7 @@ namespace EMR
             string val2 = Session["sapc"].ToString();
             if (!IsPostBack == true)
             {
-                
+
                 GridView1.DataSource = SqlDataSource1;
                 GridView1.DataBind();
 

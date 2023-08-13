@@ -74,10 +74,16 @@ namespace EMR
 
         protected void txtHOM_TextChanged(object sender, EventArgs e)
         {
-            if (txtHOM.Text == "HOM")
+            string prev = Session["hom"].ToString();
+            if (txtHOM.Text == "HOM" && prev == "DOC")
             {
                 txtHOM.Text = "";
-                Response.Redirect("ReviewofSystem.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
+                Response.Redirect("DoctorDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
+            }
+            if (txtHOM.Text == "HOM" && prev == "MA")
+            {
+                txtHOM.Text = "";
+                Response.Redirect("MADashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
             }
         }
     }

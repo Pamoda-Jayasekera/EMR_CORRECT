@@ -24,7 +24,8 @@ namespace EMR
         {
             SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
             con.Open();
-            SqlCommand cmd = new SqlCommand("select * from login_DB where Username='" + txtUser.Text + "' and password='" + txtPass.Text + "' ", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM login_DB WHERE Username='" + txtUser.Text + "' AND password='" + txtPass.Text + "' AND role='" + txtRole.Text + "'", con);
+
 
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.HasRows)
@@ -37,7 +38,7 @@ namespace EMR
                         Session["category"] = "Doctor";
                         Response.Redirect("DoctorDashboard.aspx");
                     }
-                    else if (dr.GetValue(2).ToString() == "MA")
+                    else if (dr.GetValue(2).ToString() == "Medical Assistant")
                     {
                         Session["category"] = "MA";
                         Response.Redirect("MADashboard.aspx");

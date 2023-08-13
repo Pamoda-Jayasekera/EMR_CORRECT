@@ -2,9 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
    <h3>Login Page </h3>
-    <div class="con">
+    <div class="con" style="margin-left: 255px">
       <div class="row">
-         <div class="col-md-6 mx-auto">
+         <div class="col-md-6 mx-auto" style="left: 136px; top: 7px; margin-top: 0px">
             <div class="card">
                <div class="card-body">
                   <div class="row">
@@ -39,7 +39,15 @@
                            <asp:TextBox CssClass="form-control" ID="txtPass" runat="server" placeholder="Password" TextMode="Password" OnTextChanged="TextBox2_TextChanged"></asp:TextBox>
                         </div>
                           <br />
-                       
+
+                        
+                        <label>Role</label>
+                        <div class="form-group">
+                           <asp:TextBox CssClass="form-control" ID="txtRole" runat="server" placeholder="Role"  OnTextChanged="TextBox2_TextChanged"></asp:TextBox>
+                        </div>
+                          <br />
+
+                         
                         
                         <div class="form-group">
                             <br />

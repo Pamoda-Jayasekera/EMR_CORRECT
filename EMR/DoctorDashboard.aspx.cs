@@ -13,17 +13,20 @@ namespace EMR
 {
     public partial class WebForm3 : System.Web.UI.Page
     {
+        public string lineData;
+        public string lineDataBP;
         SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
         
         protected void Page_Load(object sender, EventArgs e)
         {
             txtRBDoctor.Focus();
             Session["hom"] = "DOC";
+
             if (txtApCode.Text != "" && txtMRN.Text != "")
             {
                 Session["smrn"] = txtMRN.Text;
                 Session["sapc"] = txtApCode.Text;
-                
+
                 Allergy();
                 PMH();
                 FH();
@@ -37,6 +40,7 @@ namespace EMR
                 PI();
                 Images();
                 LabReports();
+
             }
             else
             {
@@ -71,9 +75,126 @@ namespace EMR
                     txtAge.Text = yrs.ToString() + " yrs";
                 }
             }
+                if (txtApCode.Text != "")
+                {
+
+                    LoadDataOfLineChart();
+                }
+                
+           
 
         }
-       
+
+        public void LoadDataOfLineChart()
+        {
+            string strConnectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+            using (SqlConnection myConnect = new SqlConnection(strConnectionString))
+            {
+                myConnect.Open();
+
+                string strCommandText = "SELECT weight, bloodpressure, hba1c, timestamp FROM Vitals WHERE app_code=@AppCode ORDER BY timestamp ASC";
+                SqlCommand comm = new SqlCommand(strCommandText, myConnect);
+
+                comm.Parameters.AddWithValue("@AppCode", txtApCode.Text);
+
+                using (SqlDataAdapter da = new SqlDataAdapter(comm))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    GridView1.DataSource = dt;
+                    GridView1.DataBind();
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        //data format is [[x1,y1],[x2,y2]]
+                        string weightData = "[";
+                        string bpData = "[";
+                        string hba1cData = "[";
+
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            weightData += "[" + "'" + dr["timestamp"] + "'" + "," + dr["weight"] + "],";
+                            bpData += "[" + "'" + dr["timestamp"] + "'" + "," + dr["bloodpressure"] + "],";
+                            hba1cData += "[" + "'" + dr["timestamp"] + "'" + "," + dr["hba1c"] + "],";
+                        }
+
+                        weightData = weightData.Remove(weightData.Length - 1) + "]";
+                        bpData = bpData.Remove(bpData.Length - 1) + "]";
+                        hba1cData = hba1cData.Remove(hba1cData.Length - 1) + "]";
+
+                        // Render the chart
+                        RenderLineChart(weightData, bpData, hba1cData);
+                    }
+                    else
+                    {
+                        // No data for the specified user, display a message or handle appropriately
+                        RenderLineChart("", "", "");
+                    }
+                }
+            }
+        }
+
+        private void RenderLineChart(string weightData, string bpData, string hba1cData)
+        {
+            // Render the chart using Highcharts library
+            // Ensure that the Highcharts script is loaded on the page
+
+            string script = @"
+<script src='https://code.highcharts.com/highcharts.js'></script>
+<div id='MyLineChart'></div>
+<script>
+    Highcharts.chart('MyLineChart', {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Vitals (Weight, Blood Pressure, and HbA1c)'
+        },
+        xAxis: {
+            title: {
+                text: 'Timestamp'
+            }
+        },
+        yAxis: [{
+            title: {
+                text: 'Weight'
+            }
+        }, {
+            title: {
+                text: 'Blood Pressure'
+            },
+            opposite: true
+        }, {
+            title: {
+                text: 'HbA1c'
+            },
+            opposite: true
+        }],
+        series: [{
+            type: 'spline',
+            name: 'Weight',
+            data: " + weightData + @",
+            yAxis: 0
+        }, {
+            type: 'spline',
+            name: 'Blood Pressure',
+            data: " + bpData + @",
+            yAxis: 1
+        }, {
+            type: 'spline',
+            name: 'HbA1c',
+            data: " + hba1cData + @",
+            yAxis: 2
+        }]
+    });
+</script>";
+
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "LineChart", script);
+        }
+
+
+
         protected void PMH()
         {
             con.Open();
@@ -555,10 +676,15 @@ namespace EMR
                 txtMRN.Text = r1[8].ToString();
                 txtBMI.Text = r1[10].ToString();
 
-
+            
             }
             con.Close();
         }
+
+
+
+
+
         protected void btnAdd_Click(object sender, EventArgs e)
         {
 

@@ -14,12 +14,20 @@ namespace EMR
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            txtRBox.Focus();
-            txtDate.Text = DateTime.Now.ToString("M/dd/yyyy");
-            string val = Session["smrn"].ToString();
-            string val1 = Session["sname"].ToString();
-            TextBox2.Text = val;
-            TextBox1.Text = val1;
+           
+                txtRBox.Focus();
+                txtDate.Text = DateTime.Now.ToString("M/dd/yyyy");
+                if (Session["smrn"] != null)
+                {
+                    string val = Session["smrn"].ToString();
+                    TextBox2.Text = val;
+                }
+                if (Session["sname"] != null)
+                {
+                    string val1 = Session["sname"].ToString();
+                    TextBox1.Text = val1;
+                }
+            
         }
 
         protected void Button1_Click(object sender, EventArgs e)

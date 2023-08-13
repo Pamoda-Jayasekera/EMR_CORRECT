@@ -18,10 +18,11 @@ namespace EMR
         protected void Page_Load(object sender, EventArgs e)
         {
             txtRBClerk.Focus();
+            
 
         }
 
-
+       
 
         protected void txtRBClerk_TextChanged(object sender, EventArgs e)
         {
@@ -133,7 +134,7 @@ namespace EMR
                 else if (key2 == "ADD")
                 {
                     txtRBClerk.Text = "";
-                    Response.Write(@"<script language='javascript'>alert('Patient Details Entered!!!')</script>");
+                  
                     Button1_Click(sender, e);
                 }
 

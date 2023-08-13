@@ -62,7 +62,7 @@
             <h1 align="center"><b>Social History</b></h1>
             <br />
             <br /><div align="center">
-                <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true" OnTextChanged="txtHOM_TextChanged" spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="HOM">    </asp:TextBox>   </div>
+                <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true"  spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="HOM" OnTextChanged="txtHOM_TextChanged">    </asp:TextBox>        </div>
             <table align="center">
                 <tr>
                     <td class="auto-style1" >

@@ -9,18 +9,23 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
+
 namespace EMR
 {
     public partial class WebForm2 : System.Web.UI.Page
     {
+        public string lineData;
         SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
 
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["hom"] = "MA";
             txtRBMA.Focus();
+            
+            
             if (txtMRN.Text != "")
             {
+               
                 PInfo();
                 PEmerDet();
                 Allergy();
@@ -31,6 +36,9 @@ namespace EMR
                 Images();
                 LabReports();
                 loadVitals();
+                ROS();
+                VC();
+
             }
             if (txtApCode.Text != "" && txtMRN.Text != "")
             {
@@ -38,6 +46,7 @@ namespace EMR
                 Session["sapc"] = txtApCode.Text;
                 PI();
                 loadVitals();
+                
             }
             else if (txtApCode.Text == "" && txtMRN.Text == "")
             {
@@ -58,6 +67,9 @@ namespace EMR
                     Images();
                     LabReports();
                     loadVitals();
+                    ROS();
+                    VC();
+
                 }
                 if (txtDOB.Text != "")
                 {
@@ -66,10 +78,12 @@ namespace EMR
                     int yrs = yeartoday - byear;
                     txtAge.Text = yrs.ToString() + " yrs";
                 }
+                
             }
 
-
+            
         }
+
         protected void PMH()
         {
             con.Open();
@@ -78,7 +92,8 @@ namespace EMR
             SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
             DataTable dt1 = new DataTable();
             sda1.Fill(dt1);
-            CheckBoxList2.DataTextField = "code";
+            dt1.Columns.Add("DisplayField", typeof(string), "code + ' - ' + note + ' year'");
+            CheckBoxList2.DataTextField = "DisplayField";
 
             CheckBoxList2.DataSource = dt1;
             CheckBoxList2.DataBind();
@@ -88,6 +103,7 @@ namespace EMR
                 CheckBoxList2.Items[i].Selected = true;
             }
         }
+
         protected void Allergy()
         {
 
@@ -117,13 +133,17 @@ namespace EMR
             txt1.Font.Bold = true;
             txt1.Attributes.Add("style", "overflow :hidden");
             txt1.ClientIDMode = System.Web.UI.ClientIDMode.Static;
-            SqlDataAdapter sda = new SqlDataAdapter("select * from [Order] where patient_id=" + txtMRN.Text + " and type='Med'", con);
+            //SqlDataAdapter sda = new SqlDataAdapter("select from [Order] where patient_id=" + txtMRN.Text + " and type='Med'", con);
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT [description], [dosage] FROM [Order] WHERE patient_id=" + txtMRN.Text + " AND type='Med'", con);
+
             DataTable dt = new DataTable();
             sda.Fill(dt);
             txt1.Rows = dt.Rows.Count;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                txt1.Text += dt.Rows[i].ItemArray[2].ToString() + "\n";
+                //txt1.Text += dt.Rows[i].ItemArray[2].ToString() + "\n";
+                txt1.Text += dt.Rows[i].ItemArray[0].ToString() + " " + dt.Rows[i].ItemArray[1].ToString() + "\n";
+
 
             }
             dt.Clear();
@@ -152,6 +172,25 @@ namespace EMR
                 CheckBoxList5.Items[i].Selected = true;
             }
 
+        }
+
+        protected void ROS()
+        {
+            con.Open();
+            SqlCommand cmd1 = new SqlCommand("select distinct review_type from Review_of_System where patient_id=" + txtMRN.Text + " ", con);
+            cmd1.ExecuteNonQuery();
+            SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
+            CheckBoxList7.DataTextField = "review_type";
+            CheckBoxList7.DataSource = dt1;
+            CheckBoxList7.DataBind();
+            dt1.Clear();
+            con.Close();
+            for (int i = 0; i < CheckBoxList7.Items.Count; i++)
+            {
+                CheckBoxList7.Items[i].Selected = true;
+            }
         }
         public void LabReports()
         {
@@ -196,24 +235,25 @@ namespace EMR
         }
         protected void FH()
         {
-
             con.Open();
-            SqlCommand cmd2 = new SqlCommand("select distinct code from Medical_history where patient_id=" + txtMRN.Text + " and history_type='FH'", con);
+            SqlCommand cmd2 = new SqlCommand("select distinct code, value, note from Medical_history where patient_id=" + txtMRN.Text + " and history_type='FH'", con);
             cmd2.ExecuteNonQuery();
             SqlDataAdapter sda2 = new SqlDataAdapter(cmd2);
             DataTable dt2 = new DataTable();
             sda2.Fill(dt2);
             CheckBoxList3.DataTextField = "code";
-
+            CheckBoxList3.DataValueField = "value";
             CheckBoxList3.DataSource = dt2;
             CheckBoxList3.DataBind();
-            con.Close();
             for (int i = 0; i < CheckBoxList3.Items.Count; i++)
             {
+                string note = dt2.Rows[i]["note"].ToString();
+                CheckBoxList3.Items[i].Text += " (" + note + ")";
                 CheckBoxList3.Items[i].Selected = true;
             }
-
+            con.Close();
         }
+
         protected void SH()
         {
             con.Open();
@@ -230,6 +270,25 @@ namespace EMR
             for (int i = 0; i < CheckBoxList4.Items.Count; i++)
             {
                 CheckBoxList4.Items[i].Selected = true;
+            }
+        }
+
+        protected void VC()
+        {
+            con.Open();
+            SqlCommand cmd1 = new SqlCommand("select distinct code,value from Medical_history where patient_id=" + txtMRN.Text + " and history_type='VC' ", con);
+            cmd1.ExecuteNonQuery();
+            SqlDataAdapter sda1 = new SqlDataAdapter(cmd1);
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
+            CheckBoxList6.DataTextField = "value";
+
+            CheckBoxList6.DataSource = dt1;
+            CheckBoxList6.DataBind();
+            con.Close();
+            for (int i = 0; i < CheckBoxList6.Items.Count; i++)
+            {
+                CheckBoxList6.Items[i].Selected = true;
             }
         }
         protected void txtRBMA_TextChanged(object sender, EventArgs e)
@@ -286,6 +345,12 @@ namespace EMR
                         txtRBMA.Text = "";
                     }
 
+                    else if (key == "HBA ")
+                    {
+                        txtHBA.Text = des;
+                        txtRBMA.Text = "";
+                    }
+
                     else if (key == "TEM ")
                     {
                         txtTemp.Text = des;
@@ -334,6 +399,14 @@ namespace EMR
                 {
                     Response.Redirect("Image.aspx");
                 }
+                else if (key2 == "ROS")
+                {
+                    Response.Redirect("ReviewofSystem.aspx");
+                }
+                else if (key2 == "PRD")
+                {
+                    Response.Redirect("prediction.aspx");
+                }
             }
             if (txtRBMA.Text.Length == 2)
             {
@@ -360,6 +433,12 @@ namespace EMR
                     Response.Redirect("LabReports.aspx");
                 }
 
+                if (key1 == "VC")
+                {
+                    Response.Redirect("Vaccination.aspx");
+                }
+
+
             }
             if (txtMRN.Text != "")
             {
@@ -376,8 +455,7 @@ namespace EMR
                     txtGen.Text = r[7].ToString();
                     txtBGP.Text = r[8].ToString();
                     txtDistrict.Text = r[10].ToString();
-        
-                 
+
                 }
 
                 con.Close();
@@ -398,29 +476,18 @@ namespace EMR
                 PMH();
                 FH();
                 SH();
+                ROS();
                 addTextBoxCM();
                 LabReports();
                 Images();
                 loadVitals();
-
-                if (!string.IsNullOrEmpty(txtDOB.Text))
+                VC();
+                if (txtDOB.Text != "")
                 {
-                    DateTime dob;
-                    if (DateTime.TryParse(txtDOB.Text, out dob))
-                    {
-                        int yeartoday = DateTime.Now.Year;
-                        int byear = dob.Year;
-                        int yrs = yeartoday - byear;
-                        txtAge.Text = yrs.ToString() + " yrs";
-                    }
-                    else
-                    {
-                        // handle invalid date of birth input
-                    }
-                }
-                else
-                {
-                    // handle empty date of birth input
+                    int yeartoday = DateTime.Now.Year;
+                    int byear = int.Parse(txtDOB.Text.Substring(0, 4));
+                    int yrs = yeartoday - byear;
+                    txtAge.Text = yrs.ToString() + " yrs";
                 }
 
             }
@@ -433,7 +500,7 @@ namespace EMR
             {
                 float wei = float.Parse(txtWei.Text);
                 float hei = float.Parse(txtHei.Text);
-                float bmi = (wei / (hei * hei))*10000;
+                float bmi = ( wei / (hei * hei)) *10000;
                 txtBMI.Text = bmi.ToString();
             }
 
@@ -441,7 +508,9 @@ namespace EMR
         protected void loadVitals()
         {
             con.Open();
-            SqlCommand cmd1 = new SqlCommand("select * from Vitals where app_code='" + txtApCode.Text + "'", con);
+            SqlCommand cmd1 = new SqlCommand("select * from Vitals where app_code=" + txtApCode.Text + "", con);
+
+            cmd1.ExecuteNonQuery();
             SqlDataReader r1 = cmd1.ExecuteReader();
             if (r1.HasRows)
             {
@@ -456,6 +525,7 @@ namespace EMR
                     txtPO2.Text = r1[7].ToString();
                     txtMRN.Text = r1[8].ToString();
                     txtBMI.Text = r1[10].ToString();
+                    txtHBA.Text = r1[11].ToString();
 
 
                 }
@@ -502,7 +572,7 @@ namespace EMR
         protected void Button1_Click(object sender, EventArgs e)
         {
             con.Open();
-            SqlCommand cmd = new SqlCommand("Insert into Vitals" + "(vital_id,app_code,bloodpressure,weight,height,pulse,temp,po2,user_id,timestamp,BMI)values(@vital_id,@app_code,@bloodpressure,@weight,@height,@pulse,@temp,@po2,@user_id,@timestamp,@BMI)", con);
+            SqlCommand cmd = new SqlCommand("INSERT into Vitals" + "(vital_id,app_code,bloodpressure,weight,height,pulse,temp,po2,user_id,timestamp,BMI,hbA1c)values(@vital_id,@app_code,@bloodpressure,@weight,@height,@pulse,@temp,@po2,@user_id,@timestamp,@BMI,@hbA1c)", con);
             cmd.Parameters.AddWithValue("@vital_id", txtVID.Text);
             cmd.Parameters.AddWithValue("@app_code", txtApCode.Text);
             cmd.Parameters.AddWithValue("@bloodpressure", txtBP.Text);
@@ -515,8 +585,10 @@ namespace EMR
             cmd.Parameters.AddWithValue("@timestamp", x);
             cmd.Parameters.AddWithValue("@po2", txtPO2.Text);
             cmd.Parameters.AddWithValue("@BMI", txtBMI.Text);
+            cmd.Parameters.AddWithValue("@hbA1c", txtHBA.Text);
+
             cmd.ExecuteNonQuery();
-            Response.Write(@"<script language='javascript'>alert('Patient Vitals Entered!!!')</script>");
+            //Response.Write(@"<script language='javascript'>alert('Patient Vitals Entered!!!')</script>");
             con.Close();
         }
 
@@ -549,6 +621,7 @@ namespace EMR
             txtPTN.Text = "";
             txtBGP.Text = "";
             txtAge.Text = "";
+            txtHBA.Text = "";
             CheckBoxList1.Items.Clear();
             CheckBoxList2.Items.Clear();
             CheckBoxList3.Items.Clear();
@@ -576,5 +649,10 @@ namespace EMR
             Response.Redirect("Main.aspx");
         }
 
+        protected void gvLineChart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+

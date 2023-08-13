@@ -61,7 +61,7 @@
             <h1 align="center"><b>Past Medical History</b></h1>
             <br />
              <div align="center">
-     <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true"  spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="HOM"  >    </asp:TextBox>                 
+      <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true"  spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="HOM" OnTextChanged="txtHOM_TextChanged">    </asp:TextBox>               
             </div>
         <br />
             <table align="center">

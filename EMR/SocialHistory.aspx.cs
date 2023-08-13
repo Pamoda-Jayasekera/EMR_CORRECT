@@ -75,10 +75,10 @@ namespace EMR
 
             string historytype = "SH";
             SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
-            
+
 
             con.Open();
-             SqlCommand cmd = new SqlCommand("delete from Medical_history where patient_id=" + val + " and history_type='SH'", con);
+            SqlCommand cmd = new SqlCommand("delete from Medical_history where patient_id=" + val + " and history_type='SH'", con);
             cmd.ExecuteNonQuery();
 
 
@@ -120,16 +120,16 @@ namespace EMR
             else if (chkNSm.Checked)
             {
                 yesorno = "Non Smoking";
-                cmd2.Parameters.AddWithValue("@note2","");
+                cmd2.Parameters.AddWithValue("@note2", "");
             }
             cmd2.Parameters.AddWithValue("@value2", yesorno);
-            
+
 
             cmd2.Parameters.AddWithValue("@datestamp2", d);
             cmd2.Parameters.AddWithValue("@history_type", historytype);
             cmd2.ExecuteNonQuery();
 
-           
+
 
             SqlCommand cmd4 = new SqlCommand("Insert into Medical_history" + "(patient_id,code,value,note,datestamp,history_type)values(@patient_id4,@code4,@value4,@note4,@datestamp4,@history_type)", con);
 
@@ -161,34 +161,33 @@ namespace EMR
             {
                 yesorno = "Alcohol";
             }
-            else if(chkNAlc.Checked)
+            else if (chkNAlc.Checked)
             {
                 yesorno = "Non Alcohol";
             }
             cmd5.Parameters.AddWithValue("@value5", yesorno);
-            cmd5.Parameters.AddWithValue("@note5",txtAlFreq.Text);
+            cmd5.Parameters.AddWithValue("@note5", txtAlFreq.Text);
 
             cmd5.Parameters.AddWithValue("@datestamp5", d);
             cmd5.Parameters.AddWithValue("@history_type", historytype);
 
             cmd5.ExecuteNonQuery();
             con.Close();
-            
+
         }
 
         protected void txtHOM_TextChanged(object sender, EventArgs e)
         {
-            if (Session["hom"] != null)
+            string prev = Session["hom"].ToString();
+            if (txtHOM.Text == "HOM" && prev == "DOC")
             {
-                string prev = Session["hom"].ToString();
-                if (txtHOM.Text == "HOM" && prev == "DOC")
-                {
-                    Response.Redirect("DoctorDashboard.aspx");
-                }
-                else if (txtHOM.Text == "HOM" && prev == "MA")
-                {
-                    Response.Redirect("MADashboard.aspx");
-                }
+                txtHOM.Text = "";
+                Response.Redirect("DoctorDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
+            }
+            if (txtHOM.Text == "HOM" && prev == "MA")
+            {
+                txtHOM.Text = "";
+                Response.Redirect("MADashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
             }
         }
     }

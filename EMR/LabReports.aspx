@@ -4,6 +4,16 @@
         ::placeholder{
              text-align:center;
          }
+
+        .my-table {
+         float: left;
+  position: absolute;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size:15px;
+ 
+
+    }
     </style>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
@@ -43,8 +53,33 @@
          <br />
         <div class="centerblock" align="center">
          <asp:TextBox ID="txtHOM" runat="server" autocomplete="off"  AutoPostBack="true"  spellcheck="false" Width="800px" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE LAB NAME/HOM" OnTextChanged="txtLabName_TextChanged">    </asp:TextBox>                 
-        <br />
-        <br />
+       
+   
+
+
+            <table class="my-table">
+    <tr>
+        <td><a href="LabReportDataEnter.aspx">Profile Liver</a></td>
+      
+    </tr>
+     <tr>
+        <td><a href="LabReportDataEnterRenal5.aspx">Profile Renal</a></td>
+      
+    </tr>
+     <tr>
+        <td><a href="LabReportDataEnter.aspx">Complete Blood Count</a></td>
+      
+    </tr>
+     <tr>
+        <td><a href="LabReportDataEnterRenal5.aspx">Lipid Profile</a></td>
+      
+    </tr>
+
+</table>
+
+            <br />
+            <br />
+
    <asp:FileUpload ID="FileUpload1" runat="server" ForeColor="#3366ff"/>
 <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="Upload" ForeColor="#3366ff"/>
             <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:con %>" SelectCommand="SELECT patient_id,Lab_name,Content_Type,Lab_Report,convert(nvarchar(10), datestamp, 120) as datestamp FROM [Lab_Reports] ORDER BY [datestamp]">
@@ -67,5 +102,7 @@
     </Columns>
 </asp:GridView>
             </div>
+
+
      
 </asp:Content>

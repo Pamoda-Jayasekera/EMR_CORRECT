@@ -104,34 +104,13 @@
          }
        
         
-        .auto-style14 {
-            float: left;
-            width: 160px;
-            height: auto;
-        }
-        .auto-style14v {
-            float: left;
-            width: 210px;
-            height: auto;
-        }
         .auto-style14w {
             float: left;
             width: 200px;
             height: auto;
         }
 
-        .auto-style14wn {
-            float: left;
-            width: 150px;
-            height: auto;
-        }
-        .auto-style14n {
-            float: left;
-            width: 240px;
-            height: auto;
-        }
-
-
+        
         .auto-style15 {
             float: left;
             width: 150px;
@@ -142,13 +121,25 @@
 
         .auto-style16 {
             float: left;
-            width: 140px;
+            width: 237px;
+            height: auto;
+        }
+         
+        .auto-style17 {
+            float: left;
+            width: 250px;
+            height: auto;
+        }
+         
+        .auto-style18 {
+            float: left;
+            width: 113px;
             height: auto;
         }
          
         </style>
    
-    <body onload=display_ct();>
+    <body>
    
     
     <h2><b>DOCTOR'S DASHBOARD</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="t1" style="width:356px;border:none"/>        </h2> 
@@ -156,13 +147,14 @@
     <table>
 
             <tr>
-<div align="center">
+<div style="position: fixed" align="center">
             <asp:TextBox ID="txtRBDoctor" runat="server" AutoPostBack="true"  spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE HERE/CLR/LOGOUT" OnTextChanged="txtRBDoctor_TextChanged">    </asp:TextBox>                 
             </div>
                 </tr>
                     
                 </table>
-     
+     <br />
+        <br /> <br /><br />
                <table>
             <tr>
                 <div align="center" >
@@ -222,25 +214,25 @@
        
                 </tr><tr>
            <td><p  >
-               <asp:Label ID="Label4" runat="server"  BackColor="#D1D7D8" Width="248px" Height="30px" ><b>BloodPressure<span style="color:red;">(BP):</span></b></asp:Label> 
+               <asp:Label ID="Label4" runat="server"  BackColor="#D1D7D8" Width="248px" Height="30px" ><b>BloodPressure (mmHg)<span style="color:red;">(BP):</span></b></asp:Label> 
         <asp:TextBox ID="txtBP" runat="server" Width="240px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
        </td>
                     <td class="auto-style2"><p >
-                <asp:Label ID="Label7" runat="server" BackColor="#D1D7D8" Width="180px" Height="30px"  ><b>Pulse<span style="color:red;">(PUL):</span></b></asp:Label> 
+                <asp:Label ID="Label7" runat="server" BackColor="#D1D7D8" Width="180px" Height="30px"  ><b>Pulse (BPM)<span style="color:red;">(PUL):</span></b></asp:Label> 
                 <asp:TextBox ID="txtPulse" runat="server" Width="180px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox>
         </td>
            <td class="auto-style2"><p>
-        <asp:Label ID="Label8" runat="server" BackColor="#D1D7D8" Width="180px" Height="30px" ><b>Temperature<span style="color:red;">(TEM):</span></b></asp:Label>
+        <asp:Label ID="Label8" runat="server" BackColor="#D1D7D8" Width="180px" Height="30px" ><b>Temperature (°C)<span style="color:red;">(TEM):</span></b></asp:Label>
         <asp:TextBox ID="txtTemp" runat="server" Width="180px"  autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
                    
         </td>
          <td class="auto-style2"><p >
-         <asp:Label ID="Label6" runat="server" BackColor="#D1D7D8" Width="104px" Height="30px"  ><b>Height<span style="color:red;">(HEI):</span></b></asp:Label>
+         <asp:Label ID="Label6" runat="server" BackColor="#D1D7D8" Width="104px" Height="30px"  ><b>Height (cm)<span style="color:red;">(HEI):</span></b></asp:Label>
           <asp:TextBox ID="txtHei" runat="server" Width="100px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
        </td>
                     <td class="auto-style2">
                      <p  >
-        <asp:Label ID="Label5" runat="server" BackColor="#D1D7D8" Width="119px" Height="30px" ><b>Weight<span style="color:red;">(WEI):</span></b></asp:Label>
+        <asp:Label ID="Label5" runat="server" BackColor="#D1D7D8" Width="119px" Height="30px" ><b>Weight (Kg)<span style="color:red;">(WEI):</span></b></asp:Label>
         <asp:TextBox ID="txtWei" runat="server" Width="100px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
         </td>
                      <td class="auto-style2"><p>
@@ -291,48 +283,88 @@
         </tr>
         </table>
     <br />
+        
+         <table>
+           <tr>
+                <td>
+            <asp:GridView ID="GridView1" runat="server" ShowHeaderWhenEmpty="True" AllowSorting="True" EnableSortingAndPagingCallbacks="True">
+            </asp:GridView>
+                </td>
+               <td>
+                   <div id="MyLineChart"></div>
+               </td>
+          
+           </tr>
+       </table>
+
+         <br />
+
+    <br />
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+         <table>
+           <tr>
+                <td>
+            <asp:GridView ID="GridView3" runat="server" ShowHeaderWhenEmpty="True" AllowSorting="True" EnableSortingAndPagingCallbacks="True">
+            </asp:GridView>
+                </td>
+               <td>
+                   <div id="MyLineChartBP"></div>
+               </td>
+          
+           </tr>
+       </table>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+    <br />
+
+    <br />
+
+    <br />
+      
 
       <div> 
-    <table>
+
+    <table style="border: 3px solid darkblue;">
             
-        <tr>
-            <td>
+        <tr style="border: 3px solid darkblue;">
+            <td style="border: 3px solid darkblue;">
         <asp:Panel ID="Panel1" runat="server" HorizontalAlign="Center" Width="180" BackColor="#ffff66" CssClass="auto-style5">
 
            <b>Past Medical History <br />
            <span style="color:red;">(PMH)</span> </b>
         </asp:Panel></td>
-            <td>
+            <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel2" runat="server" HorizontalAlign="Center" Width="200" BackColor="#ffff66">
                 <b>Family History <br />
                 <span style="color:red;">(FH)</span> </b>
                 </asp:Panel>
             </td>
-             <td>
+             <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel3" runat="server" HorizontalAlign="Center" Width="180" BackColor="#ffff66">
                 <b>Social History <br />
            <span style="color:red;">(SH)</span> </b>
                 </asp:Panel>
             </td>
-             <td>
-                <asp:Panel ID="Panel4" runat="server" HorizontalAlign="Center" Width="180" BackColor="#ffff66">
+             <td style="border: 3px solid darkblue;">
+                <asp:Panel ID="Panel4" runat="server" HorizontalAlign="Center" Width="241px" BackColor="#ffff66">
                 <b>Allergies<br />
            <span style="color:red;">(ALL)</span> </b>
                 </asp:Panel>
             </td>
-             <td>
-                <asp:Panel ID="Panel5" runat="server" HorizontalAlign="Center" Width="340" BackColor="#ffff66">
+             <td style="border: 3px solid darkblue;">
+                <asp:Panel ID="Panel5" runat="server" HorizontalAlign="Center" Width="248px" BackColor="#ffff66">
                 <b>Current Medications <br />
            <span style="color:red;">(CM)</span> </b>
                 </asp:Panel>
             </td>
-            <td>
-                <asp:Panel ID="Panel6" runat="server" HorizontalAlign="Center" Width="100" BackColor="#ffff66">
+            <td style="border: 3px solid darkblue;">
+                <asp:Panel ID="Panel6" runat="server" HorizontalAlign="Center" Width="110px" BackColor="#ffff66">
                 <b>Lab Reports <br />
            <span style="color:red;">(LR)</span> </b>
                 </asp:Panel>
             </td>
-            <td>
+            <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel12" runat="server" HorizontalAlign="Center" Width="100" BackColor="#ffff66">
                 <b>Images<br />
            <span style="color:red;">(IMG)</span> </b>
@@ -341,9 +373,9 @@
          </tr>
         </table>
     </div>
-        <table>
-            <tr>
-                <td>
+        <table style="border: 3px solid darkblue;">
+            <tr style="border: 3px solid darkblue;">
+                <td style="border: 3px solid darkblue;">
                     <div class="leftdiv1" align="center">
                         
                          <asp:CheckBoxList ID="CheckBoxList2" runat="server" CssClass="re" ></asp:CheckBoxList>
@@ -352,33 +384,33 @@
                           
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="leftdiv2" align="center">
                       <asp:CheckBoxList ID="CheckBoxList3" runat="server" CssClass="re" ></asp:CheckBoxList>
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="leftdiv1" align="center">
                          <asp:CheckBoxList ID="CheckBoxList4" runat="server" CssClass="re" ></asp:CheckBoxList> 
                     </div>
                 </td>
-                <td>
-                    <div class="leftdiv1" align="center">
+                <td style="border: 3px solid darkblue;">
+                    <div class="auto-style16" align="center">
                         <asp:CheckBoxList ID="CheckBoxList1" runat="server" CssClass="re" ></asp:CheckBoxList>
                     </div>
                 </td>
-                <td>
-                    <div class="CM" ID="addControl1" runat="server" align="center" spellcheck="false" >
+                <td style="border: 3px solid darkblue;">
+                    <div class="auto-style17" ID="addControl1" runat="server" align="center" spellcheck="false" >
 
                     </div>
                 </td>
-                <td>
-                    <div class="leftdiv1n">
+                <td style="border: 3px solid darkblue;">
+                    <div class="auto-style18">
                       <div width="105px" ID="addControlLab" runat="server" align="center" spellcheck="false" >
 
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="leftdiv1n">
                    <div width="100px" ID="addControlImg" runat="server" align="center" spellcheck="false" >
 
@@ -388,47 +420,47 @@
         </table>
         <br />
    <div class="centerblock">
-        <table>
+        <table style="border: 3px solid darkblue;">
             
-        <tr>
-            <td>
+        <tr style="border: 3px solid darkblue;">
+            <td style="border: 3px solid darkblue;">
                 
         <asp:Panel ID="Panel7" runat="server" HorizontalAlign="Center" Width="300" BackColor="#ffff66">
            <b>Presenting Illness <br />
            
            <span style="color:red;">(PI)</span> </b>
         </asp:Panel></td>
-            <td>
+            <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel8" runat="server" HorizontalAlign="Center" Width="100" BackColor="#ffff66">
                 <b>Snapshot <br />
                 <span style="color:red;">(90DAY)</span> </b>
                 </asp:Panel>
             </td>
-             <td>
+             <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel9" runat="server" HorizontalAlign="Center" Width="200" BackColor="#ffff66">
                 <b>Review of System<br />
            <span style="color:red;">(ROS)</span> </b>
                 </asp:Panel>
             </td>
-             <td>
+             <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel10" runat="server" HorizontalAlign="Center" Width="120" BackColor="#ffff66">
                 <b>Assessment<br />
            <span style="color:red;">(ASS)</span> </b>
                 </asp:Panel>
             </td>
-             <td>
+             <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel11" runat="server" HorizontalAlign="Center" Width="210" BackColor="#ffff66">
                 <b>Orders<br />
            <span style="color:red;">(ORD)</span> </b>
                 </asp:Panel>
             </td>
-            <td>
+            <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel13" runat="server" HorizontalAlign="Center" Width="150" BackColor="#ffff66">
                 <b>Referrals<br />
            <span style="color:red;">(REF)</span> </b>
                 </asp:Panel>
             </td>
-            <td>
+            <td style="border: 3px solid darkblue;">
             <asp:Panel ID="Panel14" runat="server" HorizontalAlign="Center" Width="150" BackColor="#ffff66">
                 <b>Follow Up<br />
            <span style="color:red;">(FOLUP)</span> </b>
@@ -438,40 +470,40 @@
 </tr>
         </table>
     </div>
-        <br />
-         <table>
-            <tr>
-                <td>
+       
+         <table style="border: 3px solid darkblue;">
+            <tr style="border: 3px solid darkblue;">
+                <td style="border: 3px solid darkblue;">
                     <div class="PI" align="center">
                          <asp:CheckBoxList ID="CheckBoxList5" runat="server" CssClass="re" ></asp:CheckBoxList>
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="leftdiv1n" align="center" ID="addControl3" runat="server" spellcheck="false">
                       
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="auto-style14w" align="center">
                           <asp:CheckBoxList ID="CheckBoxList7" runat="server" CssClass="re" ></asp:CheckBoxList>
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="ASS"  ID="addControl2" runat="server" align="center" spellcheck="false">
                         
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="ORD" ID="addControl10" runat="server" align="center" spellcheck="false">
 
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="auto-style15" align="center">
                          <asp:CheckBoxList ID="CheckBoxList6" runat="server" CssClass="re" ></asp:CheckBoxList>
                     </div>
                 </td>
-                <td>
+                <td style="border: 3px solid darkblue;">
                     <div class="auto-style15">
 
                     </div>

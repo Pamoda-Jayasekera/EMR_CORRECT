@@ -132,18 +132,20 @@ namespace EMR
         protected void txtLabName_TextChanged(object sender, EventArgs e)
         {
 
-
-            if (Session["hom"] != null)
-            {
+           
+            
                 string prev = Session["hom"].ToString();
                 if (txtHOM.Text == "HOM" && prev == "DOC")
                 {
-                    Response.Redirect("DoctorDashboard.aspx");
+                    txtHOM.Text = "";
+                    Response.Redirect("DoctorDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
                 }
-                else if (txtHOM.Text == "HOM" && prev == "MA")
+                if (txtHOM.Text == "HOM" && prev == "MA")
                 {
-                    Response.Redirect("MADashboard.aspx");
+                    txtHOM.Text = "";
+                    Response.Redirect("MADashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
                 }
+            
 
 
                 else if (txtHOM.Text == "DEL")
@@ -164,7 +166,7 @@ namespace EMR
             }
         }
     }
-}
+
 
 
     

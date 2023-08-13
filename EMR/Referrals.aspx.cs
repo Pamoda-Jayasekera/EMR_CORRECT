@@ -5,7 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using System.Web.Services;
+using System.Configuration;
+using System.Data;
+using System.Web.Script.Services;
 
 namespace EMR
 {
@@ -46,15 +49,23 @@ namespace EMR
             SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
             con.Open();
             
-            SqlCommand cmd2 = new SqlCommand("select [EMRdb].[dbo].[Specialization].description from [EMRdb].[dbo].[Specialization] inner join[EMRdb].[dbo].[Doctor] on[EMRdb].[dbo].[Specialization].speciality_code =[EMRdb].[dbo].[Doctor].[speciality_code] where Doctor.name = @key", con);
-            cmd2.Parameters.Add(new SqlParameter("@key", txtHOM.Text));
-            cmd2.ExecuteNonQuery();
+            SqlCommand cmd2 = new SqlCommand("select [EMR_DB].[dbo].[Specialization].description from [EMR_DB].[dbo].[Specialization] inner join[EMR_DB].[dbo].[Doctor] on[EMR_DB].[dbo].[Specialization].speciality_code =[EMR_DB].[dbo].[Doctor].[speciality_code] where Doctor.name = @key", con);
+            
+            cmd2.Parameters.AddWithValue("@key", txtHOM.Text);
+
             SqlDataReader r2 = cmd2.ExecuteReader();
+
             while (r2.Read())
             {
-                txtName.Text = r2[0].ToString();
+                txtName.Text = r2["description"].ToString();
             }
+
+            r2.Close();
+
+            // Close the connection here instead of opening it again
             con.Close();
+
+            // Open a new connection for the second SqlCommand
             con.Open();
             string val = Session["smrn"].ToString();
            
