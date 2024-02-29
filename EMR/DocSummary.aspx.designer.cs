@@ -11,8 +11,17 @@ namespace EMR
 {
 
 
-    public partial class FinalPrediction
+    public partial class DocSummary
     {
+
+        /// <summary>
+        /// predictionIdHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField predictionIdHidden;
 
         /// <summary>
         /// txtHOM control.
@@ -24,6 +33,42 @@ namespace EMR
         protected global::System.Web.UI.WebControls.TextBox txtHOM;
 
         /// <summary>
+        /// txtDateP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDateP;
+
+        /// <summary>
+        /// fetchDataButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button fetchDataButton;
+
+        /// <summary>
+        /// GridView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridView1;
+
+        /// <summary>
+        /// resultLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label resultLabel;
+
+        /// <summary>
         /// lblPrediction control.
         /// </summary>
         /// <remarks>
@@ -31,15 +76,6 @@ namespace EMR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblPrediction;
-
-        /// <summary>
-        /// lblPredictionID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPredictionID;
 
         /// <summary>
         /// txtDiagnosis control.
@@ -51,49 +87,31 @@ namespace EMR
         protected global::System.Web.UI.WebControls.TextBox txtDiagnosis;
 
         /// <summary>
-        /// btnSubmitDiagnosis control.
+        /// txtDiagnosisResults control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmitDiagnosis;
+        protected global::System.Web.UI.WebControls.TextBox txtDiagnosisResults;
 
         /// <summary>
-        /// lblTreatmentBasis control.
+        /// txtDiagnosisMed control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTreatmentBasis;
+        protected global::System.Web.UI.WebControls.TextBox txtDiagnosisMed;
 
         /// <summary>
-        /// hlOrders control.
+        /// txtDiagnosisTreatment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlOrders;
-
-        /// <summary>
-        /// lblOrders control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblOrders;
-
-        /// <summary>
-        /// hlTreatmentOptions control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlTreatmentOptions;
+        protected global::System.Web.UI.WebControls.TextBox txtDiagnosisTreatment;
 
         /// <summary>
         /// lblTreatmentOptions control.
@@ -103,5 +121,32 @@ namespace EMR
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTreatmentOptions;
+
+        /// <summary>
+        /// gvLabReports control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvLabReports;
+
+        /// <summary>
+        /// btnShowSelectedImages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnShowSelectedImages;
+
+        /// <summary>
+        /// phSelectedImages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phSelectedImages;
     }
 }

@@ -2,137 +2,137 @@
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web;
 
 namespace EMR
 {
     public partial class FinalPrediction : System.Web.UI.Page
     {
-      
-      
-            protected void Page_Load(object sender, EventArgs e)
-            {
-                if (!IsPostBack)
-                {
-                // Fetch and display the prediction for the given patient_id and prediction_id
-                int patientId = 0; // Replace 0 with the actual patient_id you want to retrieve predictions for.
-                int predictionId = 0; // Replace 0 with the actual prediction_id you want to retrieve.
+        private string connectionString = @"Data Source = DESKTOP - NRUK56G; Initial Catalog = EMR_DB; Integrated Security = True";
 
-                string predictionText = GetPredictionText(patientId, predictionId);
-                txtPrediction.Text = predictionText;
-            }
-            }
-
-        private string GetPredictionText(int patientId, int predictionId)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            // Your existing database connection code
-            string connectionString = "Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True";
-
-            string predictionText = "";
-            string symptoms = "";
-
-            try
+            txtHOM.Focus();
+            if (!IsPostBack)
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                if (Request.QueryString["prediction"] != null)
                 {
-                    connection.Open();
+                    string predictedDisease = Request.QueryString["prediction"];
+                    lblPrediction.Text = "Predicted Disease: " + predictedDisease;
 
-                    // Fetch the predicted illness from the database based on patientId and predictionId
-                    string illnessQuery = "SELECT prediction FROM Prediction WHERE patient_id = @patientId AND prediction_id = @predictionId";
-                    SqlCommand illnessCommand = new SqlCommand(illnessQuery, connection);
-                    illnessCommand.Parameters.AddWithValue("@patientId", patientId);
-                    illnessCommand.Parameters.AddWithValue("@predictionId", predictionId);
-
-                    object illnessResult = illnessCommand.ExecuteScalar();
-                    if (illnessResult != null)
-                    {
-                        predictionText = illnessResult.ToString();
-                    }
-
-                    // Fetch the predicted symptoms from the database based on patientId and predictionId
-                    string symptomsQuery = "SELECT symptom FROM Prediction WHERE patient_id = @patientId AND prediction_id = @predictionId";
-                    SqlCommand symptomsCommand = new SqlCommand(symptomsQuery, connection);
-                    symptomsCommand.Parameters.AddWithValue("@patientId", patientId);
-                    symptomsCommand.Parameters.AddWithValue("@predictionId", predictionId);
-
-                    using (SqlDataReader reader = symptomsCommand.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string symptom = reader["symptom"].ToString();
-                            symptoms += symptom + ", ";
-                        }
-                    }
-
-                    // Remove the last comma and space from the symptoms string
-                    if (!string.IsNullOrEmpty(symptoms))
-                    {
-                        symptoms = symptoms.TrimEnd(',', ' ');
-                    }
+                    // Use the predictedDisease value to update data in the table
+                    DisplayDataInTable(predictedDisease);
                 }
-
-                // Based on the prediction text, set the links for treatment order and treatment basis
-                switch (predictionText)
-                {
-                    case "Acute Kidney Injury":
-                        hlTreatmentOrder.NavigateUrl = "https://docs.google.com/document/d/1VFqNdi09yaI0_5n39Od7_iX2dJmKNHWl/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        hlTreatmentBasis.NavigateUrl = "https://docs.google.com/document/d/1o37GYs3o2AM389qkXjCpRIE1nOemN_t9/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        break;
-                    case "Alcoholic Liver Disease":
-                        hlTreatmentOrder.NavigateUrl = "https://docs.google.com/document/d/1VcG3J1Ion6rfG0VsRrt8kACc1W0oDQxL/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        hlTreatmentBasis.NavigateUrl = "https://docs.google.com/document/d/1g58oySLpnoXfq_5bUyME87Sh7ZQFM8jO/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        break;
-                    case "Alkaptonuria":
-                        hlTreatmentOrder.NavigateUrl = "https://docs.google.com/document/d/1vQ8jEw3oOaV89l17qpGFGcEGzmBSHpmv/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        hlTreatmentBasis.NavigateUrl = "https://docs.google.com/document/d/1-EKVjmT0eFz_8X6pwNh64xo1Xjz8SQ3h/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        break;
-                    case "Aortic Aneurysm":
-                        hlTreatmentOrder.NavigateUrl = "https://docs.google.com/document/d/1NR6I1I96l9pJucOb3gm01DJi-0Idzgy8/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        hlTreatmentBasis.NavigateUrl = "https://docs.google.com/document/d/1x6FXOfK779OdP9p249FuJMQae9aBIh8A/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        break;
-                    case "Arrhythmia":
-                        hlTreatmentOrder.NavigateUrl = "https://docs.google.com/document/d/1P6_Xv3uhYn7NFiN0H2mcJYblqfEOSG4B/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        hlTreatmentBasis.NavigateUrl = "https://docs.google.com/document/d/1r1ACBUMg74pZ7D9_ZEGmGprFhUG49Mxz/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        break;
-                    case "Asthma":
-                        hlTreatmentOrder.NavigateUrl = "https://docs.google.com/document/d/1Cl1QXhgUyxmaR-CQ2eqs6Zjh88xyIjS5/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        hlTreatmentBasis.NavigateUrl = "https://docs.google.com/document/d/11uZs8KQCVRXCK-9F16ClQ_I16koVUibt/edit?usp=drive_link&ouid=100117484703353925082&rtpof=true&sd=true";
-                        break;
-                    default:
-                        // Set default URLs if no specific disease is matched
-                        hlTreatmentOrder.NavigateUrl = "default_treatment_order_url";
-                        hlTreatmentBasis.NavigateUrl = "default_treatment_basis_url";
-                        break;
-                }
-
-                // Concatenate the predicted symptoms with the predicted illness
-                predictionText = $"{predictionText} - Predicted Symptoms: {symptoms}";
             }
-            catch (Exception ex)
-            {
-                // Handle exceptions if necessary.
-                // For simplicity, you can display the exception message during debugging.
-                predictionText = "An error occurred: " + ex.Message;
-            }
-
-            return predictionText;
         }
 
+      
+        private void DisplayDataInTable(string predictedDisease)
+        {
 
+            // Use a switch or if-else statements to determine the data to display based on predictedDisease
+            // Update 'treatment_basis', 'orders', and 'treatment_options' accordingly
+            if (predictedDisease == "Fungal infection")
+            {
+               
+                lblTreatmentBasis.Text = "Treatment Basis for Disease A";
+                lblOrders.Text = "https://docs.google.com/document/d/11q7S58mFpS-2Q-jV5SAlGV5gZ9SDhUlD/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+                lblTreatmentOptions.Text = "Treatment Options for Disease A";
+            }
+            else if (predictedDisease == "Chicken pox")
+            {
+               
+                lblTreatmentBasis.Text = "Symptomatic treatment, antiviral medication";
+                lblOrders.Text = "https://docs.google.com/document/d/11q7S58mFpS-2Q-jV5SAlGV5gZ9SDhUlD/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+                lblTreatmentOptions.Text = "https://docs.google.com/document/d/1iJZdE3ce4eVoihRuGCbJfBOhbM3sgKfa/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+            }
+
+            else if (predictedDisease == "Malaria")
+            {
+              
+                lblTreatmentBasis.Text = "Antimalarial medication, supportive care";
+                lblOrders.Text = "https://docs.google.com/document/d/1JX0AAxrryM1EJVp-9UNTewbO0AjAA_md/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+                lblTreatmentOptions.Text = "https://docs.google.com/document/d/1dPFohuqoZot9RWycBkO_Q4eqVw-akLom/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+            }
+
+            else if (predictedDisease == "Heart attack")
+            {
+              
+                lblOrders.Text = "https://docs.google.com/document/d/1kZM_ifKQEJeuOr6nwJF4YaOIBI2dqsTW/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+                lblTreatmentOptions.Text = "https://docs.google.com/document/d/1a4Wnxzw-oA9oW-No-P0QMCMN0KIFqsWr/edit?usp=sharing&ouid=100117484703353925082&rtpof=true&sd=true";
+            }
+        }
 
 
         protected void txtRef_TextChanged(object sender, EventArgs e)
+        {
+            string prev = Session["hom"].ToString();
+            if (txtHOM.Text == "HOM" && prev == "DOC")
             {
-                string prev = Session["hom"].ToString();
-                if (txtHOM.Text == "HOM" && prev == "DOC")
-                {
-                    txtHOM.Text = "";
-                    Response.Redirect("DoctorDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
-                }
-                if (txtHOM.Text == "HOM" && prev == "MA")
-                {
-                    txtHOM.Text = "";
-                    Response.Redirect("MADashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
-                }
+                txtHOM.Text = "";
+                Response.Redirect("DoctorDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
             }
+            if (txtHOM.Text == "HOM" && prev == "MA")
+            {
+                txtHOM.Text = "";
+                Response.Redirect("MADashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
+            }
+
         }
+
+        protected void btnSaveDiagnosis_Click(object sender, EventArgs e)
+        {
+            // Get the prediction ID from lblPredictionID
+            string predictionId = lblPredictionID.Text.Trim();
+            string diagnosisText = txtDiagnosis.Text.Trim();
+
+            // Create a connection to your database
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Check if the prediction_id already exists in the database
+                string checkQuery = "SELECT COUNT(*) FROM PredictionTable WHERE prediction_id = @PredictionId";
+                SqlCommand checkCommand = new SqlCommand(checkQuery, connection);
+                checkCommand.Parameters.AddWithValue("@PredictionId", predictionId);
+                int existingRecords = (int)checkCommand.ExecuteScalar();
+
+                if (existingRecords > 0)
+                {
+                    // Update the existing record with the new diagnosis text
+                    string updateQuery = "UPDATE PredictionTable SET orders = @DiagnosisText WHERE prediction_id = @PredictionId";
+                    SqlCommand updateCommand = new SqlCommand(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@DiagnosisText", diagnosisText);
+                    updateCommand.Parameters.AddWithValue("@PredictionId", predictionId);
+                    updateCommand.ExecuteNonQuery();
+                }
+                else
+                {
+                    // Insert a new record with the prediction_id and diagnosis text
+                    string insertQuery = "INSERT INTO PredictionTable (prediction_id, orders) VALUES (@PredictionId, @DiagnosisText)";
+                    SqlCommand insertCommand = new SqlCommand(insertQuery, connection);
+                    insertCommand.Parameters.AddWithValue("@PredictionId", predictionId);
+                    insertCommand.Parameters.AddWithValue("@DiagnosisText", diagnosisText);
+                    insertCommand.ExecuteNonQuery();
+                }
+
+                // Close the database connection
+                connection.Close();
+            }
+
+            // Show a pop-up message using JavaScript to confirm the save
+            string script = "alert('Diagnosis saved successfully!');";
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", script, true);
+        }
+
+
+
+
+
+
+
+
     }
+
+
+}

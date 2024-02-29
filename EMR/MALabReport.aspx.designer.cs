@@ -11,7 +11,7 @@ namespace EMR
 {
 
 
-    public partial class prediction
+    public partial class MALabReport
     {
 
         /// <summary>
@@ -24,30 +24,39 @@ namespace EMR
         protected global::System.Web.UI.WebControls.TextBox txtHOM;
 
         /// <summary>
-        /// txtSymptoms control.
+        /// fileuploadImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSymptoms;
+        protected global::System.Web.UI.WebControls.FileUpload fileuploadImage;
 
         /// <summary>
-        /// btnPredict control.
+        /// btnUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPredict;
+        protected global::System.Web.UI.WebControls.Button btnUpload;
 
         /// <summary>
-        /// lblPrediction control.
+        /// SqlDataSource3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPrediction;
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource3;
+
+        /// <summary>
+        /// gvImages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvImages;
     }
 }

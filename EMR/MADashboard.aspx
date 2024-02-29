@@ -70,35 +70,27 @@
         }
         .auto-style8 {
             float: left;
-            width: 237px;
+            width: 222px;
             height: auto;
         }
         .auto-style9 {
             float: left;
-            width: 181px;
+            width: 167px;
             height: auto;
+            margin-left: 11px;
         }
         .auto-style10 {
             float: left;
-            width: 241px;
+            width: 251px;
             height: 47px;
             position: center;
         }
         .auto-style12 {
             width: 123px;
         }
-        .auto-style14 {
-            width: 117px;
-        }
-        .auto-style15 {
-            float: left;
-            width: 99px;
-            height: auto;
-            margin-left: 22px;
-        }
         .auto-style16 {
             float: left;
-            width: 141px;
+            width: 217px;
             height: 45px;
         }
         .auto-style20 {
@@ -219,6 +211,32 @@
         .auto-style93 {
             margin-top: 0px;
         }
+         .bold-big-text {
+        font-weight: bold;
+        font-size: 18px;
+    }
+        .auto-style94 {
+            width: 169px;
+        }
+        .auto-style95 {
+            width: 101px;
+        }
+        .auto-style96 {
+            width: 1338px;
+        }
+        .auto-style97 {
+            float: left;
+            width: 169px;
+            height: auto;
+        }
+        .auto-style98 {
+            float: left;
+            width: 203px;
+            height: auto;
+        }
+        .auto-style99 {
+            width: 205px;
+        }
     </style>
     <body>
      <div class="centerblock">
@@ -227,12 +245,13 @@
     <table>
             <tr>
               <div style="position: fixed" align="center">
-            <asp:TextBox ID="txtRBMA" runat="server" AutoPostBack="true" OnTextChanged="txtRBMA_TextChanged" spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE HERE/MRN/ADD/CLR/DEL/LOGOUT">    </asp:TextBox>                 
-            </div>
+            <asp:TextBox ID="txtRBMA" runat="server" AutoPostBack="true" OnTextChanged="txtRBMA_TextChanged" spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE HERE/MRN/ADD/CLR/DEL/LOGOUT/PRD-Prediction">    </asp:TextBox>                 
+        
+                  </div>
                 </tr>
                     
                 </table>
-     <br /> <br />
+     <br /> <br /> <br /><br />
         <br /> <br /><br />
                <table>
             <tr>
@@ -247,6 +266,8 @@
                 </tr>
             </table>
            <br />
+    
+
      <table class="data" style="width: 1321px">
        <tr>
             <td class="auto-style70">
@@ -365,10 +386,11 @@
             <td class="auto-style82"><p class="auto-style40">
         <asp:Label ID="Label16" runat="server"  BackColor="#D1D7D8" Width="160px" Height="53px"><b>Contact<span style="color:red;">(CON) :</span></b></asp:Label>
            
-        <asp:TextBox  ID="txtContact" runat="server"  Width="142px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true" Font-Size="Large" style="text-align: center"></asp:TextBox></p>
+        <asp:TextBox  ID="txtContact" runat="server"  Width="142px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true" Font-Size="Large" style="text-align: center" OnTextChanged="txtContact_TextChanged"></asp:TextBox></p>
        </td>
         </tr>
         </table>
+        <br />
 
     <br />
     <br />
@@ -388,48 +410,45 @@
            <span style="color:red;">(PMH)</span> </b>
         </asp:Panel></td>
             <td style="border: 3px solid darkblue;">
-                <asp:Panel ID="Panel2" runat="server" HorizontalAlign="Center" Width="200" BackColor="#ffff66">
+                <asp:Panel ID="Panel2" runat="server" HorizontalAlign="Center" Width="219px" BackColor="#ffff66">
                 <b>Family History <br />
                 <span style="color:red;">(FH)</span> </b>
                 </asp:Panel>
             </td>
              <td style="border: 3px solid darkblue;">
-                <asp:Panel ID="Panel3" runat="server" HorizontalAlign="Center" Width="180" BackColor="#ffff66">
+                <asp:Panel ID="Panel3" runat="server" HorizontalAlign="Center" Width="190px" BackColor="#ffff66">
                 <b>Social History <br />
            <span style="color:red;">(SH)</span> </b>
                 </asp:Panel>
             </td>
              <td style="border: 3px solid darkblue;">
-                <asp:Panel ID="Panel4" runat="server" HorizontalAlign="Center" Width="238px" BackColor="#ffff66">
+                <asp:Panel ID="Panel4" runat="server" HorizontalAlign="Center" Width="240px" BackColor="#ffff66" CssClass="auto-style5">
                 <b>Allergies <br />
            <span style="color:red;">(ALL)</span> </b>
                 </asp:Panel>
             </td>
              <td style="border: 3px solid darkblue;">
-                <asp:Panel ID="Panel5" runat="server" HorizontalAlign="Center" Width="242px" BackColor="#ffff66">
+                <asp:Panel ID="Panel5" runat="server" HorizontalAlign="Center" Width="271px" BackColor="#ffff66">
                 <b>Current Medications <br />
            <span style="color:red;">(CM)</span> </b>
                 </asp:Panel>
             </td>
-            <td style="border: 3px solid darkblue;" class="auto-style14">
-                <asp:Panel ID="Panel6" runat="server" HorizontalAlign="Center" Width="140px" BackColor="#ffff66">
+            <td style="border: 3px solid darkblue;" class="auto-style95">
+                <asp:Panel ID="Panel6" runat="server" HorizontalAlign="Center" Width="218px" BackColor="#ffff66" CssClass="auto-style5">
                 <b>Lab Reports <br />
            <span style="color:red;">(LR)</span> </b>
                 </asp:Panel>
             </td>
-            <td style="border: 3px solid darkblue;">
-                <asp:Panel ID="Panel7" runat="server" HorizontalAlign="Center" Width="122px" BackColor="#ffff66">
-                <b>Images<br />
-           <span style="color:red;">(IMG)</span> </b>
-                </asp:Panel>
-            </td>
+          
+              
          </tr>
         </table>
+          
     </div>
-        <table style="border: 3px solid darkblue;">
+        <table style="border: 3px solid darkblue;" class="auto-style96">
             <tr >
                 <td style="border: 3px solid darkblue;">
-                    <div class="leftdiv1" align="center">
+                    <div class="auto-style97" align="center">
                         
                          <asp:CheckBoxList ID="CheckBoxList2" runat="server" CssClass="re" ></asp:CheckBoxList>
                                    
@@ -438,7 +457,7 @@
                     </div>
                 </td>
                 <td style="border: 3px solid darkblue;">
-                    <div class="leftdiv2" align="center">
+                    <div class="auto-style98" align="center">
                       <asp:CheckBoxList ID="CheckBoxList3" runat="server" CssClass="re" ></asp:CheckBoxList>
                     </div>
                 </td>
@@ -457,19 +476,13 @@
 
                     </div>
                 </td>
-                <td style="border: 3px solid darkblue;">
+                <td style="border: 3px solid darkblue;" class="auto-style99">
                     <div class="auto-style16">               
                         </div>
-                        <div width="105px" ID="addControlLab" runat="server" align="center" spellcheck="false" >
+                        <div ID="addControlLab" runat="server" align="center" spellcheck="false" class="auto-style94" >
                     </div>
                 </td>
-                <td style="border: 3px solid darkblue;">
-                      <div class="auto-style15">
-                      </div>
-                   <div width="100px" ID="addControlImg" runat="server" align="center" spellcheck="false" >
-
-                    </div>
-                </td>
+               
             </tr>
         </table>
         <br />

@@ -21,9 +21,57 @@ namespace EMR
                 GridView1.DataBind();
 
             }
+
+            // Define userType here
+            string userType = Session["hom"] != null ? Session["hom"].ToString() : string.Empty;
+
+            // Disable controls if logged in as a patient
+            if (userType == "PT")
+            {
+                DisableControls(this);
+            }
         }
 
-       
+        private void DisableControls(Control parent)
+        {
+            string userType = Session["hom"] != null ? Session["hom"].ToString() : string.Empty;
+
+            if (userType == "PT") // Check if the user is a PT before disabling controls
+            {
+                foreach (Control c in parent.Controls)
+                {
+                    // Check for TextBox and exclude txtHOM
+                    if (c is TextBox textBox && c.ID != "txtHOM")
+                    {
+                        textBox.Attributes["readonly"] = "readonly";
+                    }
+                    // Check and disable Button controls
+                    else if (c is Button button)
+                    {
+                        button.Enabled = false;
+                    }
+                    // Check and disable CheckBox controls
+                    else if (c is CheckBox checkBox)
+                    {
+                        checkBox.Enabled = false;
+                    }
+                    // Check and disable DropDownList controls
+                    else if (c is DropDownList dropDownList)
+                    {
+                        dropDownList.Enabled = false;
+                    }
+                    // ... include other control types as needed
+
+                    // Recursively disable child controls if user is PT
+                    if (c.HasControls())
+                    {
+                        DisableControls(c);
+                    }
+                }
+            }
+        }
+
+
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             if (txtLab.Text != "")
@@ -80,6 +128,22 @@ namespace EMR
                 txtHOM.Text = "";
                 Response.Redirect("DoctorDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
             }
+
+            string userType = Session["hom"] != null ? Session["hom"].ToString() : string.Empty;
+
+            if (userType == "PT")
+            {
+                if (txtHOM.Text != "HOM")
+                {
+                    // If user is PT and text is not HOM, reset the TextBox and do nothing
+                    txtHOM.Text = "";
+                    return;
+                }
+
+                // Handle navigation for PT user if text is HOM
+                Response.Redirect("PatientDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
+            }
+
         }
     }
 }

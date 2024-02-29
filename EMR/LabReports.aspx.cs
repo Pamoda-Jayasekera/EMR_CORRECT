@@ -95,6 +95,91 @@ namespace EMR
             Response.Flush();
             Response.End();
         }
+
+
+        //new code 10/1/2023
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the Prediction_id from the TextBox
+                string predictionId = txtPredictionId.Text;
+
+                // Get the summary from the textarea
+                string summary = txtSummary.Text;
+
+                // Create a DataTable to store test name and test results
+                DataTable dt = new DataTable();
+                dt.Columns.Add("TestName", typeof(string));
+                dt.Columns.Add("TestResults", typeof(string));
+
+                // Iterate through the table rows to collect test data
+                foreach (GridViewRow row in testTable.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        TextBox txtTestName = (TextBox)row.FindControl("txtTestName");
+                        TextBox txtTestResults = (TextBox)row.FindControl("txtTestResults");
+
+                        // Add the test data to the DataTable
+                        dt.Rows.Add(txtTestName.Text, txtTestResults.Text);
+                    }
+                }
+
+                using (SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True"))
+                {
+                    con.Open();
+                    using (SqlTransaction transaction = con.BeginTransaction())
+                    {
+                        try
+                        {
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                string testName = row["TestName"].ToString();
+                                string testResults = row["TestResults"].ToString();
+                              
+
+                                string insertQuery = "INSERT INTO LabTestResults (prediction_id, test_name, test_results) VALUES (@predictionId, @testName, @testResults)";
+                                using (SqlCommand cmd = new SqlCommand(insertQuery, con, transaction))
+                                {
+                                    cmd.Parameters.AddWithValue("@predictionId", predictionId);
+                                    cmd.Parameters.AddWithValue("@testName", testName);
+                                    cmd.Parameters.AddWithValue("@testResults", testResults);
+                                    cmd.ExecuteNonQuery();
+                                }
+
+                                string updateQuery = "UPDATE Prediction SET symptoms = symptoms + @summary WHERE prediction_id = @predictionId";
+                                using (SqlCommand cmd = new SqlCommand(updateQuery, con, transaction))
+                                {
+                                    cmd.Parameters.AddWithValue("@summary", summary);
+                                    cmd.Parameters.AddWithValue("@predictionId", predictionId);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            // Commit the transaction if everything is successful
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle any exceptions or errors that may occur during data saving
+                            // You can log the error or display it to the user
+                            transaction.Rollback(); // Rollback the transaction in case of an error
+                                                    // Example: lblMessage.Text = "An error occurred: " + ex.Message;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur before database operations (e.g., connection opening)
+                // Example: lblMessage.Text = "An error occurred: " + ex.Message;
+            }
+        }
+
+
+
+
         /*protected void DownloadFile(object sender, EventArgs e)
         {
             int id = int.Parse((sender as LinkButton).CommandArgument);

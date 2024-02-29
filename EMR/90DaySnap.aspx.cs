@@ -13,15 +13,11 @@ namespace EMR
         {
             string val1 = Session["smrn"].ToString();
             string val2 = Session["sapc"].ToString();
-            if (!IsPostBack == true)
+            if (!IsPostBack)
             {
-
                 GridView1.DataSource = SqlDataSource1;
                 GridView1.DataBind();
-
             }
-
         }
-
     }
 }

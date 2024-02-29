@@ -39,13 +39,13 @@
                            <asp:TextBox CssClass="form-control" ID="txtPass" runat="server" placeholder="Password" TextMode="Password" OnTextChanged="TextBox2_TextChanged"></asp:TextBox>
                         </div>
                           <br />
-
+                      
                         
-                        <label>Role</label>
-                        <div class="form-group">
+                        <%-- <label>Role</label> 
+                      <div class="form-group">
                            <asp:TextBox CssClass="form-control" ID="txtRole" runat="server" placeholder="Role"  OnTextChanged="TextBox2_TextChanged"></asp:TextBox>
-                        </div>
-                          <br />
+                       </div>
+                          <br /> --%>
 
                          
                         

@@ -42,7 +42,7 @@ label.lb {
         width: 60%;
         align-content:center;
         margin:4px 70px 2px 70px; /* Center the DIV horizontally */
-        padding:30px;
+        padding:20px;
 
     }
     </style>

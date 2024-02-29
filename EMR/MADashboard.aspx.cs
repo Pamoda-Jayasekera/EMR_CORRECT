@@ -33,7 +33,7 @@ namespace EMR
                 FH();
                 SH();
                 addTextBoxCM();
-                Images();
+               
                 LabReports();
                 loadVitals();
                 ROS();
@@ -64,7 +64,7 @@ namespace EMR
                     SH();
                     addTextBoxCM();
                     PI();
-                    Images();
+
                     LabReports();
                     loadVitals();
                     ROS();
@@ -203,26 +203,6 @@ namespace EMR
             txt1.Style["text-align"] = "center";
             txt1.Attributes.Add("style", "overflow :hidden");
             txt1.ClientIDMode = System.Web.UI.ClientIDMode.Static;
-            SqlDataAdapter sda = new SqlDataAdapter("select * from Lab_Reports where patient_id=" + txtMRN.Text + "", con);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            txt1.Rows = 2;
-            txt1.Text = dt.Rows.Count.ToString() + " Lab Reports";
-            dt.Clear();
-            con.Close();
-            addControlLab.Controls.Add(txt1);
-        }
-        public void Images()
-        {
-            con.Open();
-            TextBox txt1 = new TextBox();
-            txt1.TextMode = TextBoxMode.MultiLine;
-            txt1.Width = 100;
-            txt1.BorderWidth = 0;
-            txt1.Font.Bold = true;
-            txt1.Style["text-align"] = "center";
-            txt1.Attributes.Add("style", "overflow :hidden");
-            txt1.ClientIDMode = System.Web.UI.ClientIDMode.Static;
             SqlDataAdapter sda = new SqlDataAdapter("select * from Images where patient_id=" + txtMRN.Text + "", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -230,9 +210,9 @@ namespace EMR
             txt1.Text = dt.Rows.Count.ToString() + "   Images";
             dt.Clear();
             con.Close();
-            addControlImg.Controls.Add(txt1);
-
+            addControlLab.Controls.Add(txt1);
         }
+      
         protected void FH()
         {
             con.Open();
@@ -405,6 +385,7 @@ namespace EMR
                 }
                 else if (key2 == "PRD")
                 {
+                  
                     Response.Redirect("prediction.aspx");
                 }
             }
@@ -430,7 +411,7 @@ namespace EMR
                 }
                 if (key1 == "LR")
                 {
-                    Response.Redirect("LabReports.aspx");
+                    Response.Redirect("MALabReport.aspx");
                 }
 
                 if (key1 == "VC")
@@ -479,7 +460,7 @@ namespace EMR
                 ROS();
                 addTextBoxCM();
                 LabReports();
-                Images();
+                
                 loadVitals();
                 VC();
                 if (txtDOB.Text != "")
@@ -627,7 +608,7 @@ namespace EMR
             CheckBoxList3.Items.Clear();
             CheckBoxList4.Items.Clear();
             addControl.Controls.Clear();
-            addControlImg.Controls.Clear();
+           
             addControlLab.Controls.Clear();
             CheckBoxList5.Items.Clear();
             Session.Clear();
@@ -650,6 +631,11 @@ namespace EMR
         }
 
         protected void gvLineChart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void txtContact_TextChanged(object sender, EventArgs e)
         {
 
         }

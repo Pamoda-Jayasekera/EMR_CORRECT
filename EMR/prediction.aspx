@@ -1,20 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="prediction.aspx.cs" CodeBehind="prediction.aspx.cs" Inherits="EMR.prediction" EnableViewState="true" %>
 
 
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-        .space {
-            float: left;
-            width: 100%;
-            height: 20px;
-        }
+    <head>
+     
 
-        ::placeholder {
-            text-align: center;
-        }
-    </style>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+           <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -40,48 +31,131 @@
                 }
             });
 
-            $("#<%= btnAdd.ClientID %>").click(function () {
-                var symptom = $("#<%= txtHOM.ClientID %>").val().trim();
-                if (symptom !== "") {
-                    var bigTextBox = $("#<%= bigTextBox.ClientID %>");
-                    if (bigTextBox.val().trim() === "") {
-                        // First symptom, just append without a comma
-                        bigTextBox.val(symptom);
-                    } else {
-                        // Append with comma after the last symptom
-                        bigTextBox.val(bigTextBox.val() + "," + symptom);
+            //changed code 
+            checkForAddAndEnter = function (e) {
+                var keyCode = e.keyCode || e.which;
+                if (keyCode === 13) { // 13 is the Enter key code
+                    var txtValue = $("#<%= txtHOM.ClientID %>").val().trim();
+        if (txtValue.toUpperCase() === "HOM") {
+            // If "HOM" is entered, do nothing and let the form submission handle the redirection
+            return true;
+        } else if (txtValue !== "") {
+            // For other non-empty inputs, add them as symptoms
+
+            // Directly use txtValue as the symptom
+            var symptom = txtValue;
+
+            // Append the symptom to txtSymptoms
+            var txtSymptoms = $("#<%= txtSymptoms.ClientID %>");
+            if (txtSymptoms.val().trim() === "") {
+                // First symptom, just append without a comma
+                txtSymptoms.val(symptom);
+            } else {
+                // Append with comma after the last symptom
+                txtSymptoms.val(txtSymptoms.val() + "," + symptom);
+            }
+            
+            // Clear the txtHOM
+                        $("#<%= txtHOM.ClientID %>").val("");
+
+                        // Prevent default form submission
+                        e.preventDefault();
                     }
-                    $("#<%= txtHOM.ClientID %>").val("");
                 }
-            });
+            };
 
-           
         });
-
     </script>
 
-    <div class="centerblock">
-        <h1 align="center"><b>Symptom Prediction</b></h1>
-    </div>
-    <div class="space"></div>
-    <br />
+         <style>
+              body {
+                background-color: #e0f2f1; /* Light Aqua Blue */
+            }
+            .form-container {
+                background-color: #e0f2f1;
+                padding: 20px;
+                border-radius: 10px;
+            }
+            .symptom-box {
+                width: 50%;
+                background-color: #e0f2f1;
+                border: 2px solid #00acc1;
+                padding: 10px;
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+            .styled-button {
+                display: inline-block;
+                background-color: #00acc1;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 25px;
+                cursor: pointer;
+                font-size: 16px;
+                text-align: center;
+                text-decoration: none;
+                transition: background-color 0.3s ease;
+            }
+            .styled-button:hover {
+                background-color: #00acc1;
+            }
+            .predict-button {
+                margin-top: 20px;
+                
+            }
+           .prediction-label {
+                display: block;
+                margin-top: 20px;
+                font-size: 24px;
+                font-weight: bold;
+                color: black;
+            }
+             h2 {
+            color: black; /* Black Text */
+            margin-top: 20px;
+        }
+        </style>
+    </head>
+    <body>
+        <div align="center">
+          <h2>Illness Prediction</h2>
+        <div class="textbox1" align="center">
+          <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true" spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE HOM" OnTextChanged="txtRef_TextChanged" onkeydown="checkForAddAndEnter(event);"></asp:TextBox>
 
-    <div class="textbox1" align="center">
-        <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true" spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE SYMPTOMS/HOM" OnTextChanged="txtRef_TextChanged">
-        </asp:TextBox>
-    </div>
-    <br />
-    <!-- ... other markup ... -->
-
-    <div class="centerblock" align="center">
-        <!-- Add a TextArea control with ID "bigTextBox" -->
-        <asp:Button ID="btnAdd" runat="server" Text="Add" OnClick="btnAdd_Click" Width="100px" Height="40px" CssClass="btn btn-primary btn-lg" />
-    </div>
-    <br />
-    <div class="centerblock" align="center">
-        <asp:TextBox ID="bigTextBox" runat="server" TextMode="MultiLine" Rows="6" Width="800px" Height="150px"></asp:TextBox>
+        </div>
         <br />
-        <asp:Button ID="btnEnter" runat="server" Text="Enter" Width="100px" Height="40px" OnClick="btnEnter_Click" CssClass="btn btn-primary btn-lg" />
-    </div>
+       
+     
+             
+          
+       <br />
+           
+                   
+            <br />
+                   
+            <br />
+                   
+            <br />
+            </div>
+             <div align="center">
+          
+            <asp:TextBox ID="txtSymptoms" runat="server" placeholder="Selected symptoms will appear here" autocomplete="off" Width="98%" Height="112px"></asp:TextBox>
+            
+        <br />
+        <br />
+        <br />
+       
+            <asp:Button ID="btnPredict" runat="server" Text="Predict Disease" CssClass="predict-button" OnClick="btnPredict_Click" Height="35px" Width="167px" />
+                 <br />
+    <asp:Label ID="lblPrediction" runat="server" CssClass="prediction-label"></asp:Label>
 
+ <br />
+                 <br />
+
+<br />
+
+
+        </div>
+    </body>
 </asp:Content>

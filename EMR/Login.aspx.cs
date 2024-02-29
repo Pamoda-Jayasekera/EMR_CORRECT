@@ -24,7 +24,9 @@ namespace EMR
         {
             SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
             con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM login_DB WHERE Username='" + txtUser.Text + "' AND password='" + txtPass.Text + "' AND role='" + txtRole.Text + "'", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM login_DB WHERE Username=@username AND password=@password", con);
+            cmd.Parameters.AddWithValue("@username", txtUser.Text);
+            cmd.Parameters.AddWithValue("@password", txtPass.Text);
 
 
             SqlDataReader dr = cmd.ExecuteReader();
@@ -47,6 +49,12 @@ namespace EMR
                     {
                         Session["category"] = "Clerk";
                         Response.Redirect("PatientRegistration.aspx");
+                    }
+                    //new code for the patient 
+                    else if (dr.GetValue(2).ToString() == "Patient")
+                    {
+                        Session["category"] = "Patient";
+                        Response.Redirect("PatientDashboard.aspx");
                     }
                 }
             }

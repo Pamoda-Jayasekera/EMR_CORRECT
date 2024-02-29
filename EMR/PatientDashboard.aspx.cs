@@ -11,16 +11,21 @@ using System.Reflection;
 
 namespace EMR
 {
-    public partial class WebForm3 : System.Web.UI.Page
+    public partial class PatientDashboard : System.Web.UI.Page
     {
         public string lineData;
         public string lineDataBP;
         SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
-        
         protected void Page_Load(object sender, EventArgs e)
         {
-            txtRBDoctor.Focus();
-            Session["hom"] = "DOC";
+
+            txtRBPatient.Focus();
+            Session["hom"] = "PT";
+            //new code change 
+            if (Session["category"] != null && Session["category"].ToString() == "Patient")
+            {
+                MakeControlsReadOnly();
+            }
 
             if (txtApCode.Text != "" && txtMRN.Text != "")
             {
@@ -38,9 +43,9 @@ namespace EMR
                 Assessment();
                 SnapShot90Day();
                 PI();
-                
+
                 LabReports();
-                
+
                 VC();
             }
             else
@@ -65,9 +70,9 @@ namespace EMR
                     SnapShot90Day();
                     ROS();
                     PI();
-                    
+
                     LabReports();
-                    
+
                     VC();
 
                 }
@@ -79,13 +84,51 @@ namespace EMR
                     txtAge.Text = yrs.ToString() + " yrs";
                 }
             }
-                
-                
-           
+
+
+
 
         }
 
-     
+        //new code change 
+        private void MakeControlsReadOnly()
+        {
+            // Iterate over all controls and set them to read-only.
+            // This is a recursive approach that disables all input controls on the page.
+            DisableControls(this);
+        }
+
+        private void DisableControls(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                // Exclude txtRBPatient and txtHOM from being made read-only or disabled
+                if ((c is TextBox tb && tb.ID != "txtRBPatient" && tb.ID != "txtHOM") ||
+                    (c is Button btn && btn.ID != "btnSpecificButtonToExclude") || // Replace with actual ID if there's a button to exclude
+                    (c is DropDownList ddl && ddl.ID != "ddlSpecificDropDownToExclude")) // Replace with actual ID if there's a DropDownList to exclude
+                {
+                    if (c is TextBox)
+                    {
+                        ((TextBox)c).ReadOnly = true;
+                    }
+                    else if (c is Button)
+                    {
+                        ((Button)c).Enabled = false;
+                    }
+                    else if (c is DropDownList)
+                    {
+                        ((DropDownList)c).Enabled = false;
+                    }
+                    // ... include other control types as needed
+                }
+
+                // Recursive call for any container controls
+                if (c.HasControls())
+                {
+                    DisableControls(c);
+                }
+            }
+        }
 
 
         protected void VC()
@@ -168,7 +211,7 @@ namespace EMR
         protected void Referrals()
         {
             con.Open();
-            SqlCommand cmd2 = new SqlCommand("select distinct speciality from Referrals where patient_id="+txtMRN.Text, con);
+            SqlCommand cmd2 = new SqlCommand("select distinct speciality from Referrals where patient_id=" + txtMRN.Text, con);
             cmd2.ExecuteNonQuery();
             SqlDataAdapter sda2 = new SqlDataAdapter(cmd2);
             DataTable dt2 = new DataTable();
@@ -231,7 +274,7 @@ namespace EMR
             con.Close();
             addControlLab.Controls.Add(txt1);
         }
-       
+
         public void addTextBoxLab()
         {
             con.Open();
@@ -253,7 +296,7 @@ namespace EMR
 
             }
             dt.Clear();
-            addControl10.Controls.Add(txt2);
+          //  addControl10.Controls.Add(txt2);
             con.Close();
         }
         public void Assessment()
@@ -265,7 +308,7 @@ namespace EMR
             txt2.BorderWidth = 0;
             txt2.Font.Bold = true;
             txt2.Attributes.Add("style", "overflow :hidden");
-            
+
             txt2.ClientIDMode = System.Web.UI.ClientIDMode.Static;
             SqlDataAdapter sda = new SqlDataAdapter("select Distinct convert(nvarchar(10), datestamp, 120),patient_id from Assessment where patient_id=" + txtMRN.Text + "", con);
             DataTable dt = new DataTable();
@@ -278,7 +321,7 @@ namespace EMR
             dt.Clear();
             addControl2.Controls.Add(txt2);
             con.Close();
-            
+
 
         }
         public void SnapShot90Day()
@@ -305,7 +348,7 @@ namespace EMR
             dt.Clear();
             addControl3.Controls.Add(txt3);
             con.Close();
-            
+
 
         }
         protected void FH()
@@ -332,7 +375,7 @@ namespace EMR
         {
 
             con.Open();
-            SqlCommand cmd2 = new SqlCommand("select distinct symptom from PresentIllness where app_code="+txtApCode.Text, con);
+            SqlCommand cmd2 = new SqlCommand("select distinct symptom from PresentIllness where app_code=" + txtApCode.Text, con);
             cmd2.ExecuteNonQuery();
             SqlDataAdapter sda2 = new SqlDataAdapter(cmd2);
             DataTable dt2 = new DataTable();
@@ -386,172 +429,164 @@ namespace EMR
                 CheckBoxList7.Items[i].Selected = true;
             }
         }
-        protected void txtRBDoctor_TextChanged(object sender, EventArgs e)
+        protected void txtRBPatient_TextChanged(object sender, EventArgs e)
         {
 
             try
             {
-                if (txtRBDoctor.Text.Length > 4)
+                if (txtRBPatient.Text.Length > 4)
                 {
-                        if (txtRBDoctor.Text == "LOGOUT")
-                        {
-                            txtRBDoctor.Text = "";
-                            btnLogOut_Click(sender, e);
-                        }
-                        string rbtxt = txtRBDoctor.Text;
-                        string key = txtRBDoctor.Text.Substring(0, 4);
-                        string des = rbtxt.Substring(4);
+                    if (txtRBPatient.Text == "LOGOUT")
+                    {
+                        txtRBPatient.Text = "";
+                        btnLogOut_Click(sender, e);
+                    }
+                    string rbtxt = txtRBPatient.Text;
+                    string key = txtRBPatient.Text.Substring(0, 4);
+                    string des = rbtxt.Substring(4);
 
-                        if (key == "APC ")
-                        {
-                            txtApCode.Text = des;
-                            txtRBDoctor.Text = "";
-                        }
-                        if (key == "MRN ")
-                        {
-                            txtMRN.Text = des;
-                            txtRBDoctor.Text = "";
-                        }
+                    if (key == "APC ")
+                    {
+                        txtApCode.Text = des;
+                        txtRBPatient.Text = "";
+                    }
+                    if (key == "MRN ")
+                    {
+                        txtMRN.Text = des;
+                        txtRBPatient.Text = "";
+                    }
 
                     else if (key == "VID ")
                     {
                         txtVID.Text = des;
-                        txtRBDoctor.Text = "";
+                        txtRBPatient.Text = "";
                     }
                 }
-                    if (txtRBDoctor.Text.Length == 3)
+                if (txtRBPatient.Text.Length == 3)
+                {
+                    string key2 = txtRBPatient.Text.Substring(0, 3);
+                    if (key2 == "PMH")
                     {
-                        string key2 = txtRBDoctor.Text.Substring(0, 3);
-                        if (key2 == "PMH")
-                        {
-                            Response.Redirect("PastMedicalHistory.aspx");
-                        }
-
-                        else if (key2 == "ALL")
-                        {
-                            Response.Redirect("Allergy.aspx");
-                        }
-                        else if (key2 == "IMG")
-                        {
-                            Response.Redirect("Image.aspx");
-                        }
-                        else if (key2 == "ROS")
-                        {
-                            Response.Redirect("ReviewofSystem.aspx");
-                        }
-                        else if (key2 == "ASS")
-                        {
-                            Response.Redirect("Assessment.aspx");
-                        }
-                        else if (key2 == "ORD")
-                        {
-                            Response.Redirect("Orders.aspx");
-                        }
-                    else if (key2 == "FRD")
-                    {
-                        if (!string.IsNullOrEmpty(txtMRN.Text.Trim()))
-                        {
-                            string patientMRN = txtMRN.Text.Trim();
-                            Response.Redirect("DocSummary.aspx?mrn=" + patientMRN);
-                        }
-
+                        Response.Redirect("PastMedicalHistory.aspx?mode=view");
                     }
+
+                    else if (key2 == "ALL")
+                    {
+                        Response.Redirect("Allergy.aspx?mode=view");
+                    }
+                    else if (key2 == "IMG")
+                    {
+                        Response.Redirect("Image.aspx?mode=view");
+                    }
+                    else if (key2 == "ROS")
+                    {
+                        Response.Redirect("ReviewofSystem.aspx?mode=view");
+                    }
+                    else if (key2 == "ASS")
+                    {
+                        Response.Redirect("Assessment.aspx?mode=view");
+                    }
+                    else if (key2 == "ORD")
+                    {
+                        Response.Redirect("Orders.aspx?mode=view");
+                    }
+                  
                     else if (key2 == "REF")
-                        {
-                            Response.Redirect("Referrals.aspx");
-                        }
-                        else if (key2 == "CLR")
-                        {
-                            btnClear_Click(sender, e);
-                        }
-
-
-                    }
-                    if (txtRBDoctor.Text.Length == 4)
                     {
-                        string key4 = txtRBDoctor.Text.Substring(0, 4);
-                        if (key4 == "PTED")
-                        {
-                            Response.Redirect("PatientEducation.aspx");
-                        }
+                        Response.Redirect("Referrals.aspx?mode=view");
                     }
-                    if (txtRBDoctor.Text.Length == 5)
+                    else if (key2 == "CLR")
                     {
-                        string key4 = txtRBDoctor.Text.Substring(0, 5);
-                        if (key4 == "FOLUP")
-                        {
-                            Response.Redirect("FollowUps.aspx");
-                        }
-                        else if (key4 == "90DAY")
-                        {
-                            Response.Redirect("90DaySnap.aspx");
-                        }
-
+                        btnClear_Click(sender, e);
                     }
-                    if (txtRBDoctor.Text.Length == 2)
-                    {
-                        string key1 = txtRBDoctor.Text.Substring(0, 2);
 
-                        if (key1 == "FH")
-                        {
-                            Response.Redirect("FamilyHistory.aspx");
-                        }
-                        else if (key1 == "CM")
-                        {
-                            Response.Redirect("CurrentMedications.aspx");
-                        }
-                        else if (key1 == "PI")
-                        {
-                            Response.Redirect("PresentIllness.aspx");
-                        }
-                        else if (key1 == "SH")
-                        {
-                            Response.Redirect("SocialHistory.aspx");
-                        }
-                        else if (key1 == "LR")
-                        {
-                            Response.Redirect("DocSummary.aspx");
-                        }
+
+                }
+                if (txtRBPatient.Text.Length == 4)
+                {
+                    string key4 = txtRBPatient.Text.Substring(0, 4);
+                    if (key4 == "PTED")
+                    {
+                        Response.Redirect("PatientEducation.aspx?mode=view");
+                    }
+                }
+                if (txtRBPatient.Text.Length == 5)
+                {
+                    string key4 = txtRBPatient.Text.Substring(0, 5);
+                    if (key4 == "FOLUP")
+                    {
+                        Response.Redirect("FollowUps.aspx?mode=view");
+                    }
+                    else if (key4 == "90DAY")
+                    {
+                        Response.Redirect("90DaySnap.aspx?mode=view");
+                    }
+
+                }
+                if (txtRBPatient.Text.Length == 2)
+                {
+                    string key1 = txtRBPatient.Text.Substring(0, 2);
+
+                    if (key1 == "FH")
+                    {
+                        Response.Redirect("FamilyHistory.aspx?mode=view");
+                    }
+                    else if (key1 == "CM")
+                    {
+                        Response.Redirect("CurrentMedications.aspx?mode=view");
+                    }
+                    else if (key1 == "PI")
+                    {
+                        Response.Redirect("PresentIllness.aspx?mode=view");
+                    }
+                    else if (key1 == "SH")
+                    {
+                        Response.Redirect("SocialHistory.aspx?mode=view");
+                    }
+                    else if (key1 == "LR")
+                    {
+                        Response.Redirect("MALabReport.aspx?mode=view");
+                    }
 
                     else if (key1 == "VC")
                     {
-                        Response.Redirect("Vaccination.aspx");
+                        Response.Redirect("Vaccination.aspx?mode=view");
                     }
                 }
 
-                    loadVitals();
-                    if (txtMRN.Text != "")
-                    {
-                        PInfo();
-                        PEmerDet();
-                        Allergy();
-                        PMH();
-                        FH();
-                        ROS();
-                        SH();
-                        PI();
-                        addTextBoxCM();
-                        addTextBoxLab();
-                        Referrals();
-                        Assessment();
-                        SnapShot90Day();
-                       
-                        LabReports();
-                        
-                         VC();
-                    }
-                    if (txtDOB.Text != "")
-                    {
-                        int yeartoday = DateTime.Now.Year;
-                        int byear = int.Parse(txtDOB.Text.Substring(0, 4));
-                        int yrs = yeartoday - byear;
-                        txtAge.Text = yrs.ToString() + " yrs";
-                    }
-                
+                loadVitals();
+                if (txtMRN.Text != "")
+                {
+                    PInfo();
+                    PEmerDet();
+                    Allergy();
+                    PMH();
+                    FH();
+                    ROS();
+                    SH();
+                    PI();
+                    addTextBoxCM();
+                    addTextBoxLab();
+                    Referrals();
+                    Assessment();
+                    SnapShot90Day();
+
+                    LabReports();
+
+                    VC();
+                }
+                if (txtDOB.Text != "")
+                {
+                    int yeartoday = DateTime.Now.Year;
+                    int byear = int.Parse(txtDOB.Text.Substring(0, 4));
+                    int yrs = yeartoday - byear;
+                    txtAge.Text = yrs.ToString() + " yrs";
+                }
+
             }
             catch (Exception ex)
             {
-                
+
             }
         }
         protected void PEmerDet()
@@ -605,6 +640,7 @@ namespace EMR
                 txtPO2.Text = r1[7].ToString();
                 txtMRN.Text = r1[8].ToString();
                 txtBMI.Text = r1[10].ToString();
+
                 if (double.TryParse(txtBMI.Text, out double bmi))
                 {
                     if (bmi < 18.5 || bmi > 24.9)
@@ -642,7 +678,6 @@ namespace EMR
                         txtPulse.Style["color"] = "black"; // Or any default color
                     }
                 }
-
             }
             con.Close();
         }
@@ -693,14 +728,14 @@ namespace EMR
             addControl1.Controls.Clear();
             addControl2.Controls.Clear();
             addControl3.Controls.Clear();
-            addControl10.Controls.Clear();
+            //addControl10.Controls.Clear();
             addControlLab.Controls.Clear();
-            
+
             Session.Clear();
-            
+
         }
-      
-      
+
+
 
         protected void btnLogOut_Click(object sender, EventArgs e)
         {

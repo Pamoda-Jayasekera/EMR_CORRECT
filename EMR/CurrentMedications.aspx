@@ -26,7 +26,11 @@
     </div>
     <br />
          <div style="font-family:Arial" align="center">
-            <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true" autocomplete="off"  spellcheck="false" Width="800px" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE MEDICATIONS/HOM" OnTextChanged="txtName_TextChanged" >    </asp:TextBox>                         
+           
+            
+             <asp:TextBox ID="txtHOM" runat="server" AutoPostBack="true" autocomplete="off" spellcheck="false" Width="800px" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE MEDICATIONS/HOM" OnTextChanged="txtHOM_TextChanged"></asp:TextBox>
+         
+
         <br />
              <br />
              <div style="font-family:Arial" align="center">

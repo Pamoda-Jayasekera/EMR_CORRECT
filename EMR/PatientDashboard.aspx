@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="DoctorDashboard.aspx.cs" Inherits="EMR.WebForm3" %>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" >
-    <style>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PatientDashboard.aspx.cs" Inherits="EMR.PatientDashboard" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+  <style>
 
         input[type="checkbox"] {
             /* remove standard background appearance */
@@ -147,25 +147,18 @@
             height: 40px;
         }
          
-        .auto-style21 {
-            width: 196px;
-        }
-        .auto-style22 {
-            width: 190px;
-        }
-         
         </style>
    
     <body>
    
     
-    <h2><b>DOCTOR'S DASHBOARD</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="t1" style="width:356px;border:none"/>        </h2> 
+    <h2><b>PATIENT'S DASHBOARD</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="t1" style="width:356px;border:none"/>        </h2> 
     <br />
     <table>
 
             <tr>
 <div style="position: fixed" align="center">
-            <asp:TextBox ID="txtRBDoctor" runat="server" AutoPostBack="true"  spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE HERE/CLR/LOGOUT/FRD FOR VIEW PREDICTION" OnTextChanged="txtRBDoctor_TextChanged">    </asp:TextBox>                 
+            <asp:TextBox ID="txtRBPatient" runat="server" AutoPostBack="true"  spellcheck="false" Width="800px" autocomplete="off" Height="70px" BorderColor="#CC0000" BorderWidth="4px" placeholder="TYPE HERE/CLR/LOGOUT" OnTextChanged="txtRBPatient_TextChanged">    </asp:TextBox>                 
             </div>
                 </tr>
                     
@@ -201,14 +194,14 @@
         <asp:Label ID="Label3" runat="server" BackColor="#D1D7D8" Width="180px" Height="30px" ><b>MRN<span style="color:red;">(MRN):</span></b></asp:Label>
        <asp:TextBox ID="txtMRN" runat="server" Width="180px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
        </td>
-        <td class="auto-style22"><p>
-        <asp:Label ID="Label11" runat="server" BackColor="#D1D7D8" Width="182px" Height="30px"  ><b>VID<span style="color:red;">(VID):</span></b></asp:Label>
+        <td class="auto-style3"><p>
+        <asp:Label ID="Label11" runat="server" BackColor="#D1D7D8" Width="104px" Height="30px"  ><b>VID<span style="color:red;">(VID):</span></b></asp:Label>
            
         <asp:TextBox  ID="txtVID" runat="server"  Width="104px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
         </td>   
-           <td class="auto-style21">
+           <td class="auto-style3">
                 <p >
-        <asp:Label ID="Label12" runat="server" BackColor="#D1D7D8" Width="190px" Height="30px" ><b>Age:</b></asp:Label>
+        <asp:Label ID="Label12" runat="server" BackColor="#D1D7D8" Width="119px" Height="30px" ><b>Age:</b></asp:Label>
           
         <asp:TextBox  ID="txtAge" runat="server" Width="119px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
        </td>
@@ -243,13 +236,13 @@
         <asp:TextBox ID="txtTemp" runat="server" Width="180px"  autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
                    
         </td>
-         <td class="auto-style22"><p >
-         <asp:Label ID="Label6" runat="server" BackColor="#D1D7D8" Width="186px" Height="30px"  ><b>Height (cm)<span style="color:red;">(HEI):</span></b></asp:Label>
+         <td class="auto-style2"><p >
+         <asp:Label ID="Label6" runat="server" BackColor="#D1D7D8" Width="104px" Height="30px"  ><b>Height (cm)<span style="color:red;">(HEI):</span></b></asp:Label>
           <asp:TextBox ID="txtHei" runat="server" Width="100px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
        </td>
-                    <td class="auto-style21">
+                    <td class="auto-style2">
                      <p  >
-        <asp:Label ID="Label5" runat="server" BackColor="#D1D7D8" Width="193px" Height="30px" ><b>Weight (Kg)<span style="color:red;">(WEI):</span></b></asp:Label>
+        <asp:Label ID="Label5" runat="server" BackColor="#D1D7D8" Width="119px" Height="30px" ><b>Weight (Kg)<span style="color:red;">(WEI):</span></b></asp:Label>
         <asp:TextBox ID="txtWei" runat="server" Width="100px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true"  style="text-align: center"></asp:TextBox></p>
         </td>
                      <td class="auto-style2"><p>
@@ -283,7 +276,7 @@
            </td>
             <td class="auto-style2" colspan="2"><p>
           
-        <asp:Label ID="Label10" runat="server"  BackColor="#D1D7D8" Width="374px" Height="30px" ><b>Emergency Contact<span style="color:red;">(ECN):</span></b></asp:Label>
+        <asp:Label ID="Label10" runat="server"  BackColor="#D1D7D8" Width="224px" Height="30px" ><b>Emergency Contact<span style="color:red;">(ECN):</span></b></asp:Label>
         <asp:TextBox  ID="txtECN" runat="server"  Width="110px" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true" style="text-align: center"></asp:TextBox></p>
         </td>
             
@@ -302,6 +295,21 @@
     <br />
         
         
+
+         <br />
+
+    <br />
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+         
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+    <br />
+
+    <br />
+
+    <br />
+      
 
       <div> 
 
@@ -418,12 +426,7 @@
            <span style="color:red;">(ASS)</span> </b>
                 </asp:Panel>
             </td>
-             <td style="border: 3px solid darkblue;">
-                <asp:Panel ID="Panel11" runat="server" HorizontalAlign="Center" Width="210" BackColor="#ffff66">
-                <b>Orders<br />
-           <span style="color:red;">(ORD)</span> </b>
-                </asp:Panel>
-            </td>
+            
             <td style="border: 3px solid darkblue;">
                 <asp:Panel ID="Panel13" runat="server" HorizontalAlign="Center" Width="150" BackColor="#ffff66">
                 <b>Referrals<br />
@@ -463,11 +466,7 @@
                         
                     </div>
                 </td>
-                <td style="border: 3px solid darkblue;">
-                    <div class="ORD" ID="addControl10" runat="server" align="center" spellcheck="false">
-
-                    </div>
-                </td>
+               
                 <td style="border: 3px solid darkblue;">
                     <div class="auto-style15" align="center">
                          <asp:CheckBoxList ID="CheckBoxList6" runat="server" CssClass="re" ></asp:CheckBoxList>

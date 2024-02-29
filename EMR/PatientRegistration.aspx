@@ -94,7 +94,8 @@
             <p style="margin: 0;">
         <asp:Label ID="Label7"  runat="server" CssClass="disableCursor" style="background-color: #a7c7e7; padding: 5px; border-radius: 3px; display: inline-block;"><b>Date Of Birth<span style="color:red;">(DOB):</span></b></asp:Label>
            
-        <asp:TextBox  ID="txtDOB" CssClass="disableCursor" runat="server"  Width="200" autocomplete="off" BorderWidth="0" ForeColor="#000066" Font-Bold="true" Font-Size="Large" style="text-align: center; background:#A7C7E7;"></asp:TextBox></p>
+      <asp:TextBox ID="txtDOB" CssClass="disableCursor" runat="server" Width="200" autocomplete="off" placeholder="yyyy/mm/dd" BorderWidth="0" ForeColor="#000066" Font-Bold="true" Font-Size="Large" style="text-align: center;  background: #A7C7E7;"></asp:TextBox>
+</p>
         </td>
                  <td style="padding: 20px; border: 3px solid #ffffff; border-radius: 5px;" class="auto-style2">
             <p style="margin: 0;">

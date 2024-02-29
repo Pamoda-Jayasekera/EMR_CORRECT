@@ -14,11 +14,9 @@ namespace EMR
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string val = Session["smrn"].ToString(); 
+            string val = Session["smrn"].ToString();
+            string userType = Session["hom"].ToString();
             SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-NRUK56G;Initial Catalog=EMR_DB;Integrated Security=True");
-
-          
-           
 
             try
             {
@@ -46,6 +44,57 @@ namespace EMR
             {
                 Calendar1.SelectedDate = DateTime.Now;
                 txtDate.Text = Calendar1.SelectedDate.ToString("MM/dd/yyyy");
+            }
+
+            if (!IsPostBack)
+            {
+                // Set all the controls to readonly or disabled, as needed
+                // Only if the user is a PT (patient)
+                if (userType == "PT")
+                {
+                    DisableControls(this);
+
+
+                    // Except for txtHOM, which is allowed to use the keyword "HOM"
+                    txtHOM.Attributes["readonly"] = "readonly"; // Make it readonly by default
+                    txtHOM.Attributes.Remove("readonly"); // Remove readonly when page is not a postback, allows entering "HOM"
+                    txtHOM.Focus();
+                }
+                Calendar1.SelectedDate = DateTime.Now;
+                txtDate.Text = Calendar1.SelectedDate.ToString("MM/dd/yyyy");
+            }
+        }
+
+
+        //new code 
+
+        private void DisableControls(Control parent)
+        {
+            // Get the user type from the "hom" session variable
+            string userType = Session["hom"].ToString();
+            if (userType == "PT") // Check if the user is a PT before disabling controls
+            {
+                foreach (Control c in parent.Controls)
+                {
+                    if (c is TextBox && c.ID != "txtHOM") // Exclude txtHOM
+                    {
+                        ((TextBox)c).Attributes["readonly"] = "readonly";
+                    }
+                    else if (c is Button)
+                    {
+                        ((Button)c).Enabled = false;
+                    }
+                    else if (c is DropDownList)
+                    {
+                        ((DropDownList)c).Enabled = false;
+                    }
+                    // ... include other control types as needed
+
+                    if (c.HasControls())
+                    {
+                        DisableControls(c); // Only disable child controls if user is PT
+                    }
+                }
             }
         }
 
@@ -106,9 +155,7 @@ namespace EMR
             GridView1.DataBind();
         }
 
- 
-
-        protected void txtName_TextChanged(object sender, EventArgs e)
+        protected void txtHOM_TextChanged(object sender, EventArgs e)
         {
             string prev = Session["hom"].ToString();
             if (txtHOM.Text == "HOM" && prev == "DOC")
@@ -121,6 +168,17 @@ namespace EMR
                 txtHOM.Text = "";
                 Response.Redirect("MADashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
             }
+            // New condition for when prev is "PT"
+            if (txtHOM.Text == "HOM" && prev == "PT")
+            {
+                txtHOM.Text = "";
+                Response.Redirect("PatientDashboard.aspx?apc=" + Session["sapc"].ToString() + "&mrn=" + Session["smrn"].ToString());
+            }
+
         }
+
+
+
+
     }
 }

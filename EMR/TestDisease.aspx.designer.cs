@@ -11,7 +11,7 @@ namespace EMR
 {
 
 
-    public partial class FinalPrediction
+    public partial class TestDisease
     {
 
         /// <summary>
@@ -24,84 +24,120 @@ namespace EMR
         protected global::System.Web.UI.WebControls.TextBox txtHOM;
 
         /// <summary>
-        /// lblPrediction control.
+        /// BloodTesty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPrediction;
+        protected global::System.Web.UI.WebControls.CheckBox BloodTesty;
 
         /// <summary>
-        /// lblPredictionID control.
+        /// BloodTestn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPredictionID;
+        protected global::System.Web.UI.WebControls.CheckBox BloodTestn;
 
         /// <summary>
-        /// txtDiagnosis control.
+        /// UrineTesty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDiagnosis;
+        protected global::System.Web.UI.WebControls.CheckBox UrineTesty;
 
         /// <summary>
-        /// btnSubmitDiagnosis control.
+        /// UrineTestn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmitDiagnosis;
+        protected global::System.Web.UI.WebControls.CheckBox UrineTestn;
 
         /// <summary>
-        /// lblTreatmentBasis control.
+        /// Ultrasoundy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTreatmentBasis;
+        protected global::System.Web.UI.WebControls.CheckBox Ultrasoundy;
 
         /// <summary>
-        /// hlOrders control.
+        /// Ultrasoundn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlOrders;
+        protected global::System.Web.UI.WebControls.CheckBox Ultrasoundn;
 
         /// <summary>
-        /// lblOrders control.
+        /// CTScany control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblOrders;
+        protected global::System.Web.UI.WebControls.CheckBox CTScany;
 
         /// <summary>
-        /// hlTreatmentOptions control.
+        /// CTScann control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlTreatmentOptions;
+        protected global::System.Web.UI.WebControls.CheckBox CTScann;
 
         /// <summary>
-        /// lblTreatmentOptions control.
+        /// MRIy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTreatmentOptions;
+        protected global::System.Web.UI.WebControls.CheckBox MRIy;
+
+        /// <summary>
+        /// MRIn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox MRIn;
+
+        /// <summary>
+        /// ECGy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ECGy;
+
+        /// <summary>
+        /// ECGn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ECGn;
+
+        /// <summary>
+        /// btnSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
     }
 }
